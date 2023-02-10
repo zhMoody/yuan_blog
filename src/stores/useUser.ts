@@ -16,6 +16,8 @@ export interface UserInfo {
   nickname?: string;
   avatar?: string;
   _id?: string
+  userName: string,
+  userAvatar: string
 }
 
 const defaultUserInfo = {
@@ -23,10 +25,12 @@ const defaultUserInfo = {
   token: '',
   nickname: '',
   avatar: '',
-  _id: ''
+  _id: '',
+  userName: '烟花春晓',
+  userAvatar: 'http://127.0.0.1:3000/images/1675856851053.gif'
+
 };
 export default defineStore('useUserStore', () => {
-  const router = useRouter()
   const userInfo = ref<UserInfo>(defaultUserInfo)
   const login = async (payload) => {
     let data = payload
@@ -42,8 +46,8 @@ export default defineStore('useUserStore', () => {
     }
   }
   const logout = () => {
-    userInfo.value = defaultUserInfo
     storage.clearAll()
+    userInfo.value = defaultUserInfo
   }
 
   return {userInfo, login, logout}

@@ -10,10 +10,25 @@
   src: url("./fonts/yezi.ttf") format("truetype");
 }
 
+@font-face {
+  font-family: "rz";
+  src: url("./fonts/rz.ttf") format("truetype");
+}
+
+a {
+  text-decoration: none;
+}
+
+li {
+  list-style: none;
+}
+
 :root {
   --c-text-primary: #191919;
   --c-text-secondary: #737374;
   --c-text-666: #666;
+  --c-text-777: #777;
+  --c-f9f9f930: #F9F9F930;
   --c-border-primary: #ccc;
   --c-bg-body: #f9f9f9;
   --c-bg-primary: #fff;
@@ -21,6 +36,8 @@
   --background-color: #f9f9f9;
   --80background-color: rgba(249, 249, 249, 0.8);
   --c-bg-button: #fff;
+  --c-base-blur: blur(50px);
+  --c-divider: #f3f1f1;
 }
 
 :root.dark-theme {
@@ -50,9 +67,8 @@ body {
   background: var(--c-bg-body);
   transform: background-color 1s ease;
   color: var(--c-text-primary);
-  font-family: "yezi", serif;
+  font-family: 'rz', "yezi", serif;
   cursor: url('../assets/mouse.cur'), default;
-
   background-size: 100% 100%;
   padding: 0 220px;
 }
@@ -90,4 +106,12 @@ body::-webkit-scrollbar {
 body::-webkit-scrollbar-thumb {
   background-color: rgba(240, 248, 255, 0.74);
   font-family: "yezi", serif;
+}
+
+.icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
 }

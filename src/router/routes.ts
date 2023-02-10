@@ -1,5 +1,5 @@
 import BasicLayout from '@/layouts/BasicLayout/index.vue';
-import { RouteRecordRaw } from 'vue-router';
+import {RouteRecordRaw} from 'vue-router';
 
 // 主框架内显示的路由
 export const frameIn: Array<RouteRecordRaw> = [
@@ -13,6 +13,20 @@ export const frameIn: Array<RouteRecordRaw> = [
         component: () => import('@/views/home/index.vue'),
         meta: {
           title: 'Home',
+          keepAlive: false,
+          transition: 'animate__fadeIn'
+        },
+      },
+      {
+        path: "/article/:id",
+        name: "article",
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () =>
+          import(/* webpackChunkName: "article" */ "@/components/article/index.vue"),
+        meta: {
+          title: '--Moody--',
           keepAlive: false,
           transition: 'animate__fadeIn'
         },

@@ -12,7 +12,10 @@ import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
 // css
+import '@/styles/fonts/iconfont.css'
+import '@/styles/fonts/iconfont.js'
 import 'vfonts/Lato.css'
+import 'md-editor-v3/lib/style.css';
 // 等宽字体
 import 'vfonts/FiraCode.css'
 import 'animate.css';

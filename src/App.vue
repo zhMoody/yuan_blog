@@ -14,10 +14,14 @@
 <script setup lang="ts">
 import {NMessageProvider, NLoadingBarProvider, NNotificationProvider} from 'naive-ui'
 
+console.log("\n %c XXXXXXXX | https://XXXXXXX.cn", "color:#fff;background: linear-gradient(to right , #7A88FF, #d26aff);padding:5px;border-radius: 10px;");
+
 </script>
 <style lang="less" scoped>
 #app {
   box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+  border-radius: 5px;
+
 }
 </style>
 

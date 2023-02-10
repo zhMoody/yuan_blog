@@ -1,18 +1,24 @@
 <template>
   <div class='basic-layout'>
-    <basic-header />
-    <div>
-      <router-view v-slot='{ Component, route }'>
-        <keep-alive>
+    <basic-header/>
+    <div class="basic">
+      <div>
+        <BasicMenu class="basic-menu"></BasicMenu>
+      </div>
+      <div>
+        <router-view v-slot='{ Component, route }'>
+          <keep-alive>
+            <transition :enter-active-class='`animate__animated ${route.meta.transition}`'>
+              <component :is='Component' v-if='route.meta.keepAlive'></component>
+            </transition>
+          </keep-alive>
           <transition :enter-active-class='`animate__animated ${route.meta.transition}`'>
-            <component :is='Component' v-if='route.meta.keepAlive'></component>
+            <component :is='Component' v-if='!route.meta.keepAlive'></component>
           </transition>
-        </keep-alive>
-        <transition :enter-active-class='`animate__animated ${route.meta.transition}`'>
-          <component :is='Component' v-if='!route.meta.keepAlive'></component>
-        </transition>
-      </router-view>
-      <basic-footer />
+        </router-view>
+        <basic-footer/>
+      </div>
+      <BasicRightNav class="basic-right-nav"></BasicRightNav>
     </div>
   </div>
 </template>
@@ -20,9 +26,11 @@
 <script setup lang="ts">
 // import BasicHeader from './components/BasicHeader.vue';
 // import BasicFooter from './components/BasicFooter.vue';
-import { defineAsyncComponent } from 'vue';
+import {defineAsyncComponent} from 'vue';
 
 const BasicHeader = defineAsyncComponent(() => import('./components/BasicHeader.vue'));
+const BasicMenu = defineAsyncComponent(() => import('./components/BasicMenu.vue'));
+const BasicRightNav = defineAsyncComponent(() => import('./components/basicRightNav.vue'));
 const BasicFooter = defineAsyncComponent(() => import('./components/BasicFooter.vue'));
 
 // export default defineComponent({
@@ -44,8 +52,22 @@ const BasicFooter = defineAsyncComponent(() => import('./components/BasicFooter.
 .fade-enter,
 .fade-leave-to
 
-/* .fade-leave-active below version 2.1.8 */
-  {
+  /* .fade-leave-active below version 2.1.8 */
+{
   opacity: 0;
+}
+
+.basic {
+  display: grid;
+  grid-template-columns: 260px 1fr 260px;
+}
+
+.basic-menu {
+  position: sticky;
+  top: 50px;
+  left: 0;
+  min-height: calc(100vh - 50px);
+  background-color: var(--c-f9f9f930);
+  overflow: scroll;
 }
 </style>

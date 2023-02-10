@@ -4,7 +4,7 @@
       <Icon size='22'>
         <HomeOutline tag="span"/>
       </Icon>
-      <span>烟花春晓</span>
+      <span style="padding-left: 10px">  {{ store.userInfo.userName }}</span>
     </div>
     <div class="blog-center">
       <div class="blog-center-search">
@@ -35,6 +35,7 @@
             @click="showBox('login')"
             v-if="store.userInfo.token"
             round
+            bordered
             :size="40"
             :src="store.userInfo.avatar"
             fallback-src="https://s1.ax1x.com/2020/07/25/UzAaMq.jpg"
@@ -151,16 +152,16 @@ onMounted(() => {
 .header {
   width: 100%;
   height: 50px;
-  background-color: #F9F9F930;
+  background-color: var(--c-f9f9f930);
   box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
   position: sticky;
   top: 0;
   z-index: 990;
-  backdrop-filter: blur(50px);
+  backdrop-filter: var(--c-base-blur);
   display: flex;
   justify-content: space-between;
   padding: 0;
-  border-radius: 0 0 4px 4px;
+  border-radius: 5px;
 
   .blog-left {
     //background-color: #000000;

@@ -2,13 +2,12 @@
   <header class='header'>
     <h1>header:</h1>
     <h2 class="h2" v-for="item in menuList" :key="item.path" :style="{ 'color': item.color }"
-                    @click="router.push(item.path)">|{{
-                  item.title
-                    }}|</h2>
+        @click="router.push(item.path)">|{{
+        item.title
+      }}|</h2>
     <div class="menu">
       <div class="menu-header">
         <div class="theme-switcher">
-
           <input type="radio" name="themes" id="ligit-theme">
           <label for="ligit-theme">
             <span>
@@ -40,9 +39,11 @@
 
 <script lang='ts' setup>
 
-import { onMounted, withDefaults } from 'vue';
-import { useRouter } from 'vue-router';
+import {onMounted, withDefaults} from 'vue';
+import {useRouter} from 'vue-router';
+
 const router = useRouter()
+
 interface Props {
   menuList?: any;
 }
@@ -80,7 +81,7 @@ onMounted(() => {
 
 </script>
 <script lang='ts'>
-export default { name: 'baseHeader' };
+export default {name: 'baseHeader'};
 </script>
 <style scoped lang="less">
 .header {
@@ -123,14 +124,12 @@ export default { name: 'baseHeader' };
   margin-left: 30px;
   line-height: 50px;
   width: 320px;
-  transform: background-color .3s ease;
   border-radius: 15px;
 }
 
 .menu-header {
   padding: 1rem;
 }
-
 
 
 .menu-header .theme-switcher {
@@ -181,15 +180,15 @@ export default { name: 'baseHeader' };
   background: var(--c-bg-button);
 }
 
-.theme-switcher input:nth-of-type(1):checked~.slider {
+.theme-switcher input:nth-of-type(1):checked ~ .slider {
   transform: translateX(0);
 }
 
-.theme-switcher input:nth-of-type(2):checked~.slider {
+.theme-switcher input:nth-of-type(2):checked ~ .slider {
   transform: translateX(100%);
 }
 
-.theme-switcher input:nth-of-type(3):checked~.slider {
+.theme-switcher input:nth-of-type(3):checked ~ .slider {
   transform: translateX(200%);
 }
 </style>

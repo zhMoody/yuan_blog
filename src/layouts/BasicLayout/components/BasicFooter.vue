@@ -1,6 +1,5 @@
 <template>
   <footer>
-    <h2>Footer:</h2>
     <div class="github-badge" style="cursor: pointer; margin-left:20px ;">
       <a href="/" target="_blank">
         <span class="badge-subject">Powered by</span><span class="badge-value bg-blue">xxxxx</span>
