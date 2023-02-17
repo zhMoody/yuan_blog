@@ -3,6 +3,7 @@ import storage from 'store';
 import {useRouter} from 'vue-router';
 import UaParser, {IResult as UaResult} from 'ua-parser-js';
 import {getUserInfo, onLogin} from '@/api/index'
+import config from '../../config/index'
 
 const router = useRouter()
 
@@ -14,15 +15,11 @@ export interface UserState {
 export interface UserInfo {
   id: string;
   token: string;
-  nickname?: string;
-  avatar?: string;
 }
 
 const defaultUserInfo = {
   id: '',
   token: '',
-  nickname: '',
-  avatar: '',
 };
 
 export const useUserStore = defineStore({
@@ -33,7 +30,7 @@ export const useUserStore = defineStore({
   }),
   actions: {
     resetUserInfo() {
-      this.userInfo = {...defaultUserInfo};
+      this.userInfo = {...defaultUserInfo, ...config};
     },
     async getUserInfo() {
       // 异步调用查询用户信息接口
@@ -42,7 +39,7 @@ export const useUserStore = defineStore({
         this.userInfo = {...this.userInfo, ...userinfo.data}
         storage.set('USER_INFO', userinfo.data);
       } catch (err) {
-        console.log(err)
+        console.log('err', err)
       }
     },
     async login(payload) {

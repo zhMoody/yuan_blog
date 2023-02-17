@@ -1,12 +1,12 @@
 <template>
   <div class='basic-layout' @scroll="scoll">
     <div class="box-show">
-      <basic-header class="header"/>
+      <basic-header class="header  animate__animated  animate__fadeIn"/>
       <div class="basic">
         <div v-if="!menuStore.isShowMenu.ShowMenu">
           <BasicMenu class="basic-menu animate__animated  animate__fadeIn"></BasicMenu>
         </div>
-        <div class="content">
+        <div class="content  animate__animated  animate__fadeIn">
           <router-view v-slot='{ Component, route }'>
             <keep-alive>
               <transition :enter-active-class='`animate__animated ${route.meta.transition}`'>
@@ -17,10 +17,10 @@
               <component :is='Component' v-if='!route.meta.keepAlive'></component>
             </transition>
           </router-view>
-          <basic-footer/>
+          <basic-footer class=" animate__animated  animate__fadeIn"/>
         </div>
         <n-back-top :right="menuStore.isShowMenu.menwWidth > 750 ? 100:10"/>
-        <BasicRightNav class="basic-right-nav"></BasicRightNav>
+        <BasicRightNav class="basic-right-nav  animate__animated  animate__fadeIn"></BasicRightNav>
       </div>
     </div>
   </div>
@@ -31,6 +31,7 @@
 // import BasicFooter from './components/BasicFooter.vue';
 import {defineAsyncComponent, watchEffect, watch, ref, onMounted} from 'vue';
 import {NBackTop} from 'naive-ui'
+import useShowLoading from "@/stores/useShowLoading";
 
 const BasicHeader = defineAsyncComponent(() => import('./components/BasicHeader.vue'));
 const BasicMenu = defineAsyncComponent(() => import('./components/BasicMenu.vue'));
@@ -39,7 +40,7 @@ const BasicFooter = defineAsyncComponent(() => import('./components/BasicFooter.
 import useMenu from "@/stores/useMenu";
 
 const menuStore = useMenu()
-
+const loadingStore = useShowLoading
 watchEffect(() => {
   if (menuStore.isShowMenu.menwWidth! >= 750) {
     menuStore.isShow(false)

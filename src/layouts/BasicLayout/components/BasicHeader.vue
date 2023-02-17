@@ -32,7 +32,7 @@
         <span style="margin-right: 5px;font-size: 16px;color: var(--c-text-666)" @click="showBox">{{
             store.userInfo.nickname
           }}</span>
-        <Icon color="#777" size="12" @click="showBox">
+        <Icon color="var(--c-text-666)" size="12" @click="showBox">
           <CaretDown tag="span"></CaretDown>
         </Icon>
         <div class="avatar">
@@ -52,7 +52,6 @@
             v-if="!store.userInfo.token"
             ref="formRef"
             :model="formValue"
-            :rules="rules"
           >
             <n-form-item class="ipt" label="用户名" path="user.nickname">
               <n-input v-model:value="formValue.nickname" placeholder="用户名"/>
@@ -65,11 +64,29 @@
             </n-button>
           </n-form>
           <div v-if="store.userInfo.token" class="isLoginBox" @click.self="logoutBlog">
-            <div class="LoginOptions helloTitle">{{ getDate() }}</div>
-            <div class="LoginOptions">新建文章</div>
-            <div class="LoginOptions">后台管理</div>
+            <div class="helloTitle">{{ getDate() }}</div>
+            <div class="LoginOptions">
+              <div class="onNew">
+                <Icon color="var(--c-text-666)" size="14">
+                  <ColorWandOutline></ColorWandOutline>
+                </Icon>
+                <span>撰写文章</span></div>
+              <Icon color="var(--c-text-666)" size="12">
+                <CaretForward tag="span"></CaretForward>
+              </Icon>
+            </div>
+            <div class="LoginOptions">
+              <div class="onNew">
+                <Icon color="var(--c-text-666)" size="14">
+                  <SettingsOutline tag="span"></SettingsOutline>
+                </Icon>
+                <span>后台管理</span></div>
+              <Icon color="var(--c-text-666)" size="12">
+                <CaretForward></CaretForward>
+              </Icon>
+            </div>
             <n-divider/>
-            <div class="LoginOptions logoutBtn" @click="logoutBlog">
+            <div class="logoutBtn" @click="logoutBlog">
               退出登录
             </div>
           </div>
@@ -85,7 +102,15 @@ import {computed, onMounted, ref, watch, watchEffect} from "vue";
 import {NInput, FormInst, useMessage, NForm, NFormItem, NButton, NAvatar, NDivider, useNotification} from 'naive-ui'
 import MusicPlayer from '@/components/musicPlay/index.vue'
 import {useRouter} from "vue-router";
-import {HomeOutline, Search, PersonCircleOutline, CaretDown, MenuSharp} from '@vicons/ionicons5'
+import {
+  HomeOutline,
+  Search,
+  PersonCircleOutline,
+  CaretDown,
+  CaretForward,
+  SettingsOutline,
+  ColorWandOutline
+} from '@vicons/ionicons5'
 import useUserStore from "@/stores/useUser";
 import useMenu from "@/stores/useMenu";
 import {Icon} from '@vicons/utils'
@@ -100,16 +125,15 @@ const message = useMessage()
 const isShowLoginInputBox = ref<boolean>(false)
 const screenWidth = ref<any>(window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth)
 const formValue = ref<{ nickname: string, password: string }>({
-  nickname: 'Moody',
+  nickname: 'admin',
   password: 'Aa2597758'
 })
-
 
 const logoutBlog = () => {
   store.logout()
 }
-
-const handleValidateClick = () => {
+// 登录
+const handleValidateClick = async () => {
   if (!formValue.value.nickname.trim()) {
     notification.create({
       title: '登录通知',
@@ -290,7 +314,7 @@ onMounted(async () => {
       background-color: transparent;
       box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
       line-height: 36px;
-      cursor: url('../../../assets/link.cur'), pointer;
+      cursor: url('@/assets/link.cur'), pointer;
       border: 1px solid transparent;
 
       &:hover {
@@ -305,6 +329,7 @@ onMounted(async () => {
     height: 100%;
     display: flex;
     align-items: center;
+    cursor: url('@/assets/link.cur'), pointer;
 
     .login-container {
       height: 50px;
@@ -372,8 +397,19 @@ onMounted(async () => {
           height: 35px;
           line-height: 35px;
           margin-bottom: 15px;
-          padding-left: 10px;
+          padding: 0 10px;
           border-radius: 3px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+
+          .onNew {
+            color: var(--c-text-666);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+          }
 
           &:hover {
             background: var(--c-907e7e30);
@@ -381,15 +417,30 @@ onMounted(async () => {
         }
 
         .helloTitle {
+          height: 35px;
+          line-height: 35px;
+          margin-bottom: 15px;
+          padding-left: 10px;
+          border-radius: 3px;
+          color: var(--c-text-666);
+
           &:hover {
             background: transparent;
           }
         }
 
         .logoutBtn {
+          height: 35px;
+          line-height: 35px;
+          margin-bottom: 15px;
+          border-radius: 3px;
           text-align: center;
           color: red;
           padding-left: 0;
+
+          &:hover {
+            background-color: rgba(0, 0, 0, .05);
+          }
         }
       }
 

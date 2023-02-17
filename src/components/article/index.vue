@@ -96,7 +96,6 @@ const formatTime = computed((item) => () => {
   return dayjs(item).format('YYYY-MM-DD')
 })
 const getCatalog = (list) => {
-  console.log(1111, list)
   titleList.value = list;
 };
 const goToHome = () => {

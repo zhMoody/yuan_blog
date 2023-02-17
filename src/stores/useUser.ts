@@ -1,9 +1,11 @@
 import {defineStore} from 'pinia';
-import {ref} from "vue"
+import {nextTick, ref, watch} from "vue"
 import {IResult as UaResult} from "ua-parser-js";
 import {getUserInfo, onLogin} from "@/api";
 import storage from "store";
 import {useRouter} from "vue-router";
+import config from '../../config/index'
+import {useNotification} from 'naive-ui'
 
 export interface UserState {
   userInfo: UserInfo;
@@ -11,41 +13,48 @@ export interface UserState {
 }
 
 export interface UserInfo {
-  id: string;
-  token: string;
+  id?: string;
+  token?: string;
   nickname?: string;
   avatar?: string;
-  _id?: string
+  _id?: string,
+  userIntro: string,
   userName: string,
-  userAvatar: string
+  baseAvatarUrl: string
 }
 
 const defaultUserInfo = {
   id: '',
   token: '',
-  nickname: '',
   avatar: '',
   _id: '',
-  userName: '烟花春晓',
-  userAvatar: 'http://127.0.0.1:3000/images/1675856851053.gif'
-
+  ...config
 };
 export default defineStore('useUserStore', () => {
   const userInfo = ref<UserInfo>(defaultUserInfo)
+  const notification = useNotification()
+
   const login = async (payload) => {
     let data = payload
-    const res = await onLogin(data)
+    const res = await onLogin(data).catch((error) => {
+      notification.error({
+        title: '登录提示',
+        content: error,
+        duration: 2000
+      })
+    })
     storage.set('ACCESS_TOKEN', res.data.token)
     const userinfo = await getUserInfo()
     userInfo.value = {...userInfo.value, id: userinfo.data._id, token: res.data.token, ...userinfo.data}
     delete userInfo.value._id
   }
+
   const logout = () => {
-    setTimeout(() => {
+    nextTick(() => {
+      userInfo.value = {...config}
       storage.remove('useUserStore')
       storage.remove('ACCESS_TOKEN')
-      userInfo.value = defaultUserInfo
-    }, 10)
+    })
   }
 
   return {userInfo, login, logout}

@@ -32,7 +32,7 @@ li {
   --c-text-777: #777;
   --c-f9f9f930: #F9F9F9;
   --c-border-primary: #ccc;
-  --c-bg-body: #f9f9f9 url("@/assets/ow.jpg") no-repeat top center fixed;
+  --c-bg-body: linear-gradient(to left, #5eeca0, #e37982) no-repeat top center fixed; //url("@/assets/ow.jpg")
   --c-bg-primary: #fff;
   --c-bg-secondary: #d4d8dd;
   --background-color: #f9f9f9;
@@ -84,11 +84,13 @@ body {
   min-height: 100vh;
   width: 100%;
   background: var(--c-bg-body);
-  transform: background-color 1s ease;
+  transition: all 1s ease;
   color: var(--c-text-primary);
   font-family: 'rz', serif;
   background: center center no-repeat fixed;
   background-size: 100% 100%;
+  cursor: url('@/assets/mouse.cur'), default;
+
   //padding: 0 220px;
 }
 
