@@ -5,6 +5,7 @@
         <n-notification-provider>
           <n-dialog-provider>
             <router-view/>
+            <OnLoadingView></OnLoadingView>
           </n-dialog-provider>
         </n-notification-provider>
       </n-message-provider>
@@ -12,7 +13,11 @@
   </div>
 </template>
 <script lang="ts" setup>
+import {defineAsyncComponent} from 'vue'
 import {NMessageProvider, NLoadingBarProvider, NNotificationProvider} from 'naive-ui'
+
+const OnLoadingView = defineAsyncComponent(() => import('@/components/loading/index.vue'))
+
 </script>
 <style lang="less" scoped>
 #app {

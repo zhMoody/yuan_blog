@@ -1,12 +1,12 @@
 <template>
-  <div class="content">
-    <div v-show="!showPagination" class="empty">
-      <NEmpty description="还没有文章，去创建属于你的第一篇文章吧！" size="large">
-      </NEmpty>
-    </div>
+  <div class="content  animate__animated  animate__fadeIn">
     <div class="HomeTitle">
       <h1 style="color: var(--c-text-666)">- {{ userStore.userInfo?.userName }} -</h1>
       <h3 style="color: var(--c-text-666)">&(￣︶￣)↗[GO!][]~(￣▽￣)~*</h3>
+    </div>
+    <div v-show="!showPagination" class="empty">
+      <NEmpty description="还没有文章，去创建属于你的第一篇文章吧！" size="large">
+      </NEmpty>
     </div>
     <div class="itemContent">
       <div v-for="item in articleList.list" :key="item._id"
@@ -85,9 +85,11 @@ const pagen = ref<number>(1)
 const tootal = ref<number>(0)
 const showPagination = ref(false)
 const nextPage = (info: PaginationInfo) => {
+  console.log(info)
   let data = {
     pagesize: info.pageSize,
-    pagenum: info.page
+    pagenum: info.page,
+    tootal: info.itemCount
   }
   fenyeStore.setFenye(data)
 }
@@ -106,7 +108,6 @@ const getList = async (data: Data) => {
     tootal.value = +res.data.tootal
     pagen.value = +res.data.pagenum
     pages.value = +res.data.pagesize
-    console.log(3, tootal.value)
     articleList.list = res.data.result
     if (articleList.list.length) showPagination.value = true
     document.documentElement.scrollTop = 0

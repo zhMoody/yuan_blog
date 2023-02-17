@@ -4,7 +4,7 @@
       <div class="userAvatar">
         <n-avatar
           :size="100"
-          :src="store.userInfo.userAvatar"
+          :src="store.userInfo.baseAvatarUrl"
           bordered
           round
         />
@@ -25,34 +25,14 @@
       <div class="menu_card">
         <ul class="menu">
           <li class="text">导航</li>
-          <li v-for="navigation in navigationList" :key="navigation.path" data-aos="fade-up">
+          <li v-for="navigation in navigationList" :key="navigation.path" class="navLink" data-aos="fade-up">
             <router-link :to="navigation.path">
               <svg aria-hidden="true" class="icon">
                 <use :xlink:href="navigation.icon"></use>
               </svg>
-
               <span style='padding:0 10px'> {{ navigation.name }}</span>
             </router-link>
           </li>
-          <!--          <li v-for="(item, index) in menuList" :key="item.name" class="oneMenu" data-aos="fade-up"-->
-          <!--              @click="showToggle(item, index)">-->
-          <!--            <div-->
-          <!--              :class="item.isSubShow ? 'active' : 'myactive'"-->
-          <!--            >-->
-          <!--              <svg aria-hidden="true" class="icon">-->
-          <!--                <use :xlink:href="item.icon"></use>-->
-          <!--              </svg>-->
-          <!--              <span>{{ item.name }}</span>-->
-          <!--              <svg aria-hidden="true" class="icon float">-->
-          <!--                <use xlink:href="#icon-youjiantou"></use>-->
-          <!--              </svg>-->
-          <!--            </div>-->
-          <!--            <ul v-show="item.isSubShow" class="menu-item" data-aos="fade-up">-->
-          <!--              <li v-for="subItem in item.subItems" :key="subItem.name">-->
-          <!--                <router-link :to="subItem.path">{{ subItem.name }}</router-link>-->
-          <!--              </li>-->
-          <!--            </ul>-->
-          <!--          </li>-->
           <li id="text" class="text">构成</li>
           <li
             v-for="(item, index) in navItemList"
@@ -69,8 +49,8 @@
                 <use xlink:href="#icon-youjiantou"></use>
               </svg>
             </div>
-            <ul v-show="item.isSubShow" class="box">
-              <li v-for="subItem in item.subItems" :key="subItem.name">
+            <ul :style="{height:item.isSubShow? item.subItems.length * 40 +'px' : 0}" class="box">
+              <li v-for="subItem in item.subItems" :key="subItem.name" style="height: 20px;padding-top: 10px">
                 <router-link :to="subItem.path">{{ subItem.name }}</router-link>
               </li>
             </ul>
@@ -94,49 +74,9 @@ const router = useRouter()
 const store = useUserStore()
 const signature = ref<HTMLDivElement>()
 onMounted(() => {
-  useDynamicText(signature.value, '从此烟雨落青城 一人撑伞两人行。')
+  useDynamicText(signature.value, store.userInfo.userIntro)
 })
 
-// const menuList = reactive([
-//   {
-//     name: "菜单一",
-//     isSubShow: false,
-//     icon: "#icon-category",
-//     subItems: [
-//       {
-//         name: "二级目录",
-//         path: "/acg"
-//       },
-//       {
-//         name: "二级目录",
-//         path: "/test"
-//       },
-//       {
-//         name: "二级目录",
-//         path: "/"
-//       },
-//       {
-//         name: "二级目录",
-//         path: "/"
-//       }
-//     ]
-//   },
-//   {
-//     name: "菜单二",
-//     isSubShow: false,
-//     icon: "#icon-biaoqian",
-//     subItems: [
-//       {
-//         name: "二级目录",
-//         path: "/"
-//       },
-//       {
-//         name: "二级目录",
-//         path: "/"
-//       }
-//     ]
-//   }
-// ])
 const navItemList = reactive([
   {
     name: "分类",
@@ -192,6 +132,70 @@ const navItemList = reactive([
       {
         name: "二级目录",
         path: "/"
+      },
+      {
+        name: "二级目录",
+        path: "/"
+      },
+      {
+        name: "二级目录",
+        path: "/"
+      },
+      {
+        name: "二级目录",
+        path: "/"
+      },
+      {
+        name: "二级目录",
+        path: "/"
+      },
+      {
+        name: "二级目录",
+        path: "/"
+      },
+      {
+        name: "二级目录",
+        path: "/"
+      },
+      {
+        name: "二级目录",
+        path: "/"
+      },
+      {
+        name: "二级目录",
+        path: "/"
+      },
+      {
+        name: "二级目录",
+        path: "/"
+      },
+      {
+        name: "二级目录",
+        path: "/"
+      },
+      {
+        name: "二级目录",
+        path: "/"
+      },
+      {
+        name: "二级目录",
+        path: "/"
+      },
+      {
+        name: "二级目录",
+        path: "/"
+      },
+      {
+        name: "二级目录",
+        path: "/"
+      },
+      {
+        name: "二级目录",
+        path: "/"
+      },
+      {
+        name: "二级目录33333",
+        path: "/"
       }
     ]
   }
@@ -208,16 +212,6 @@ const navigationList = reactive([
     icon: "#icon-biaoqian1"
   }
 ])
-
-const showToggle = (item, ind) => {
-  menuList.forEach((i) => {
-    // 判断如果数据中的menuList[i]的show属性不等于当前数据的isSubShow属性那么menuList[i]等于false
-    if (i.isSubShow !== menuList[ind].isSubShow) {
-      i.isSubShow = false;
-    }
-  });
-  item.isSubShow = !item.isSubShow;
-}
 const showSubItem = (item, ind) => {
   navItemList.forEach((i) => {
     // 判断如果数据中的menuList[i]的show属性不等于当前数据的isSubShow属性那么menuList[i]等于false
@@ -229,6 +223,8 @@ const showSubItem = (item, ind) => {
 }
 </script>
 <style lang="less" scoped>
+
+
 .subject {
   overflow: hidden;
 
@@ -304,16 +300,29 @@ const showSubItem = (item, ind) => {
       padding-left: 10px;
     }
 
+    .menu {
+      display: flex;
+      gap: 15px;
+      flex-direction: column;
+    }
+
+    .box {
+      overflow: hidden;
+      transition: all .5s;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
     .menu li {
       a {
         color: var(--c-text-666);
-        display: block;
-        padding: 15px 30px;
         position: relative;
         font-size: 14px;
         font-weight: 500;
         -webkit-transition: all 0.4s;
         transition: all 0.4s;
+        padding: 0 30px;
 
         &:hover {
           color: #0acf97;
@@ -333,12 +342,16 @@ const showSubItem = (item, ind) => {
 
   .oneMenu {
     user-select: none;
-    padding: 15px 30px;
     font-size: 14px;
     font-weight: 500;
+    padding: 0 30px;
     color: var(--c-text-666);
     transition: all 0.4s;
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
 
     .myactive {
       .float {

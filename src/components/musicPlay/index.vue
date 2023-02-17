@@ -76,6 +76,7 @@ import {Icon} from '@vicons/utils'
 import {NAvatar} from 'naive-ui'
 import {reactive, onMounted, ref, withDefaults, watchEffect, computed, nextTick, watch} from 'vue'
 import {getMusicList} from "@/api/music";
+import useShowLoading from "@/stores/useShowLoading";
 
 
 interface Options {
@@ -98,6 +99,9 @@ interface Options {
   player: {},
   currentProgressTime: number | null
 }
+
+const loadingStore = useShowLoading()
+loadingStore.setLoading(true)
 
 const translate = ref('0')
 const op = ref(0)
@@ -150,7 +154,6 @@ const handlerPlay = (id) => {
   if (!options.player[id]) {
     // 没值触发新的播放
     options.index = state.DataList.findIndex((x) => x.id === id);
-    console.log(options.index);
     options.play = false;
     showPosa.value = !showPosa.value
   }
@@ -215,7 +218,7 @@ const init = () => {
   // 当前数据可用是触发
   singeBox.value!.oncanplay = function () {
     options.play ? singeBox.value!.play() : singeBox.value!.pause()
-    console.log("已经可以播放了")
+    // console.log("已经可以播放了")
   }
   // 播放位置发送改变时触发。
   singeBox.value!.ontimeupdate = function () {
@@ -226,7 +229,7 @@ const init = () => {
   // 音频播放完毕
   singeBox.value!.onended = function () {
     musicPlay("next")
-    console.log("播放完毕，谢谢收听")
+    // console.log("播放完毕，谢谢收听")
   }  // 音频播放完毕
 
   // 音频播放完毕
@@ -284,11 +287,10 @@ const doscroll = () => {
 }
 watchEffect(() => {
   if (state.DataList.length >= 0) {
-
     nextTick(() => {
-      // 计算每行高度
+      // 每行高度
       // @ts-ignore
-      state.ItemBoxHeight = items.value.children[0].offsetHeight
+      state.ItemBoxHeight = 30
       //计算屏幕内能显示的行数   +1是防止下拉过快出现白屏
       state.itemNum = ~~(scrollBox.value!.clientHeight / state.ItemBoxHeight) + 1
       // 设置列表总高度
@@ -299,11 +301,8 @@ watchEffect(() => {
 })
 //--------------虚拟列表------------------
 watch(() => options.index, (val) => {
-  // @ts-ignore
-  // nextTick(() => {
   let itemClientHeight = (30 * (val + 1)) - 30
   scrollBox.value!.scrollTop = itemClientHeight
-  // })
 })
 onMounted(async () => {
   try {
@@ -313,10 +312,13 @@ onMounted(async () => {
         let id = i + 1
         return {...item, id}
       })
+      loadingStore.setLoading(false)
       init()
     }
   } catch (err) {
-    console.log(err)
+    setTimeout(() => {
+      loadingStore.setLoading(false)
+    }, 5000)
   }
 })
 </script>

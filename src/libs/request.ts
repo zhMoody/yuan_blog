@@ -20,16 +20,16 @@ const errorHandler = (error: AxiosError) => {
       error.message = '请求错误';
       break;
     case 401:
-      error.message = '未授权，请登录';
+      error.message = error.response!.data.errorMessage || '未授权'
       break;
     case 403:
-      error.message = '拒绝访问';
+      error.message = error.response!.data.errorMessage;
       break;
     case 404:
-      error.message = `请求地址出错: ${error.response?.config.url}`;
+      error.message = error.response!.data.errorMessage;
       break;
     case 408:
-      error.message = '请求超时';
+      error.message = error.response!.data.errorMessage;
       break;
     case 500:
       error.message = '服务器内部错误';
@@ -52,12 +52,12 @@ const errorHandler = (error: AxiosError) => {
     default:
       break;
   }
-  return Promise.reject(error);
+  return Promise.reject(error.message);
 };
 
 request.interceptors.request.use((config) => {
   let token = storage.get('ACCESS_TOKEN')
-  console.log(123, token)
+  console.log('token==>', token)
   // 如果 token 存在
   // 让每个请求携带自定义 token 请根据实际情况自行修改
   config.headers.Authorization = `bearer ${storage.get('ACCESS_TOKEN')}`;
@@ -81,7 +81,7 @@ request.interceptors.response.use((response) => {
       return dataAxios;
     case 401:
       // [ 示例 ] 其它和后台约定的 code
-      return dataAxios;
+      return '登录失败了';
     default:
       // 不是正确的 code
       return '不是正确的code';
