@@ -18,7 +18,7 @@ export const delArticle = (params): Promise<DeleteArticle.RootObject> => request
   url: `/article/${params}`,
   method: 'delete'
 })
-// 删除文章
+// 更新文章
 export const updateArticle = (params, data): Promise<DeleteArticle.RootObject> => request({
   url: `/article/${params}`,
   method: 'put',
@@ -33,7 +33,30 @@ export const addArticle = (data): Promise<DeleteArticle.RootObject> => request({
 })
 
 // 获取所有分类
-export const getCategroy = (): Promise<CategroyData.ErrRootObject | CategroyData.RootObject> => request({
+export const getCategroy = (): Promise<CategroyData.RootObject> => request({
   url: `/categroy`,
+  method: 'get'
+})
+
+// 删除分类
+export const deleteCategroy = (params): Promise<DeleteArticle.RootObject> => request({
+  url: `/categroy/${params}`,
+  method: 'delete'
+})
+//创建分类
+export const addCategroy = (data): Promise<DeleteArticle.RootObject> => request({
+  url: `/categroy`,
+  method: 'post',
+  data
+})
+// 更新文章
+export const updateCategroy = (params, data): Promise<DeleteArticle.RootObject> => request({
+  url: `/categroy/${params}`,
+  method: 'put',
+  data
+})
+// 获取分类下的文章
+export const getCategroyItem = (params): Promise<ArcirleDetail.RootObject> => request({
+  url: `/categroy/${params}`,
   method: 'get'
 })

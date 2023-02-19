@@ -85,7 +85,21 @@ const menuOptions: MenuOption[] = [
       ),
     key: 'addArticle',
     icon: renderIcon(WorkIcon)
-  }
+  },
+  {
+    label: () =>
+      h(
+        RouterLink,
+        {
+          to: {
+            path: '/categroyManagement'
+          }
+        },
+        {default: () => '分类管理'}
+      ),
+    key: 'categroyManagement',
+    icon: renderIcon(WorkIcon)
+  },
 ]
 onMounted(() => {
   if (userStore.userInfo.token) {

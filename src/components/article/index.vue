@@ -167,11 +167,19 @@ onMounted(async () => {
     font-family: 'rz', "yezi", serif;
 
     :deep(.default-theme a) {
-      color: var(--c-text-777);
+      color: var(--c-text-666);
     }
 
     :deep(.default-theme) {
       color: var(--c-text-666);
+    }
+
+    :deep(.default-theme table tbody tr:nth-child(2n)) {
+      background: var(--c-doclistBg);
+    }
+
+    :deep(.default-theme table tbody tr):hover {
+      background: var(--c-divider);
     }
   }
 

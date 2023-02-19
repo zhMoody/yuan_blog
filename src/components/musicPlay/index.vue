@@ -1,9 +1,12 @@
 <template>
   <div class="music">
-    <div class="music-option">
+    <div class="music-option" @click.stop>
       <div class="btn" @click.stop="showBox">
-        <Icon color="#777" size="24" @click.stop="showBox">
-          <BowlingBallOutline tag="span"></BowlingBallOutline>
+        <Icon v-if="!options.play" color="var(--c-text-666)" size="24" @click.stop="showBox">
+          <BowlingBallOutline></BowlingBallOutline>
+        </Icon>
+        <Icon v-else="options.play" class="onPlay" color="var(--c-text-666)" size="24" @click.stop="showBox">
+          <MusicalNotesOutline></MusicalNotesOutline>
         </Icon>
       </div>
       <div class="music-posa wow animate__animated animate__fadeIn">
@@ -24,17 +27,25 @@
               <SvgIcon color="var(--c-text-666)" name="rewind"></SvgIcon>
            </span>
                 <span @click.stop="musicPlay('play')">
-              <SvgIcon :name=" options.play ? 'pause' : 'play'" color="var(--c-text-666)"></SvgIcon>
-            </span>
-
+              <SvgIcon :name="options.play ? 'pause' : 'play'" color="var(--c-text-666)"></SvgIcon>
+           </span>
                 <span @click.stop="musicPlay('next')">
               <SvgIcon color="var(--c-text-666)" name="fast-forward"></SvgIcon>
-            </span>
-                <span style="color: var(--c-text-666);user-select: none">{{ options.currentTime || '00:00' }}</span>
+           </span>
+                <span style="color: var(--c-text-666);user-select: none;margin-right: 10px;width: 40px; ">{{
+                    options.currentTime || '00:00'
+                  }}</span>
+                <div class="voiceBox">
+                  <Icon>
+                    <VolumeMediumOutline></VolumeMediumOutline>
+                  </Icon>
+                  <input v-model="options.voiceVal" :max="options.voiceMax"
+                         :min="options.sliderMin" class="range" type="range" @change="voiceSelect">
+                </div>
               </div>
               <div class="Progress">
                 <input v-model="options.sliderVal" :max="options.sliderMax"
-                       :min="options.sliderMin" class="range" type="range" @change="handleChange($event)">
+                       :min="options.voiceMin" class="range" type="range" @change="handleChange($event)">
                 <!--            <div :style="{width: options.currentProgressTime + '%'}" class="onProgress">-->
                 <!--              <span></span>-->
                 <!--            </div>-->
@@ -71,6 +82,8 @@
 <script lang='ts' setup>
 import {
   BowlingBallOutline,
+  MusicalNotesOutline,
+  VolumeMediumOutline
 } from '@vicons/ionicons5'
 import {Icon} from '@vicons/utils'
 import {NAvatar} from 'naive-ui'
@@ -103,9 +116,9 @@ interface Options {
 const loadingStore = useShowLoading()
 loadingStore.setLoading(true)
 
-const translate = ref('0')
-const op = ref(0)
-const showPosa = ref(false)
+const translate = ref<string>('0')
+const op = ref<number>(0)
+const showPosa = ref<boolean>(false)
 let singeBox = ref<HTMLAudioElement | undefined>()//audio对象
 const options = reactive<Options>({
   flag: false,
@@ -162,6 +175,9 @@ const handlerPlay = (id) => {
 
 const handleChange = (e) => {
   singeBox.value!.currentTime = e.target.value
+}
+const voiceSelect = () => {
+  singeBox.value!.volume = options.voiceVal / 100;
 }
 const musicPlay = (flag) => {
   switch (flag) {
@@ -329,6 +345,7 @@ onMounted(async () => {
 })
 </script>
 <style lang="less" scoped>
+
 .music {
   display: flex
 }
@@ -437,6 +454,36 @@ onMounted(async () => {
       color: #666;
     }
 
+    .voiceBox {
+      position: relative;
+
+      justify-content: space-between;
+      align-items: center;
+      display: none;
+
+      :deep(.range) {
+        appearance: none;
+        width: 30px;
+        height: 3px;
+        background: #f3f2d9;
+        border-radius: 3px;
+        overflow: hidden;
+      }
+
+      :deep(.range::-webkit-slider-thumb) {
+        appearance: none;
+        width: 3px;
+        height: 3px;
+        background: #fff;
+        border-radius: 4px;
+        box-shadow: calc(-100vh - 2px) 0 0 100vh #4f8984;
+      }
+    }
+
+    &:hover .voiceBox {
+      display: flex;
+    }
+
     .songOption {
       span:nth-child(1),
       span:nth-child(2),
@@ -493,10 +540,27 @@ onMounted(async () => {
     align-items: center;
     padding: 20px;
     height: 100%;
+
+    .onPlay {
+      animation: onPlayIcon .7s steps(3) infinite;
+      transform-origin: center center;
+    }
   }
 
   &:hover {
     background-color: rgba(0, 0, 0, .05);
+  }
+}
+
+@keyframes onPlayIcon {
+  0% {
+    transform: rotate(10deg);
+  }
+  50% {
+    transform: rotate(-10deg);
+  }
+  100% {
+    transform: rotate(10deg);
   }
 }
 

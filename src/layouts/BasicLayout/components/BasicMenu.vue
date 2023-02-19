@@ -49,9 +49,11 @@
                 <use xlink:href="#icon-youjiantou"></use>
               </svg>
             </div>
-            <ul :style="{height:item.isSubShow? item.subItems.length * 40 +'px' : 0}" class="box">
-              <li v-for="subItem in item.subItems" :key="subItem.name" style="height: 20px;padding-top: 10px">
-                <router-link :to="subItem.path">{{ subItem.name }}</router-link>
+            <ul :style="{height:item.isSubShow? item.subItems.length * 40 +'px' : 0}" class="box" @click.stop>
+              <li v-for="subItem in item.subItems" :key="subItem.name" :style="{color:id===subItem.id ? '#0acf97':''}"
+                  class="itemLi"
+                  @click.stop="gotoC(subItem)">
+                {{ subItem.name }}
               </li>
             </ul>
           </li>
@@ -67,8 +69,9 @@ import useUserStore from "@/stores/useUser";
 import {CaretDown} from '@vicons/ionicons5'
 import {Icon} from '@vicons/utils'
 import {useDynamicText} from "@/hooks/useDynamicText";
-import {ref, onMounted, reactive} from "vue";
+import {ref, onMounted, reactive, nextTick} from "vue";
 import {useRouter} from "vue-router";
+import {getCategroy} from "@/api/article";
 
 const router = useRouter()
 const store = useUserStore()
@@ -82,16 +85,7 @@ const navItemList = reactive([
     name: "分类",
     isSubShow: false,
     icon: "#icon-calendar",
-    subItems: [
-      {
-        name: "二级目录",
-        path: "/links"
-      },
-      {
-        name: "二级目录",
-        path: "/"
-      }
-    ]
+    subItems: []
   },
   {
     name: "页面",
@@ -212,6 +206,11 @@ const navigationList = reactive([
     icon: "#icon-biaoqian1"
   }
 ])
+const id = ref('')
+const gotoC = (subItem) => {
+  id.value = subItem.id
+  router.push(subItem.path)
+}
 const showSubItem = (item, ind) => {
   navItemList.forEach((i) => {
     // 判断如果数据中的menuList[i]的show属性不等于当前数据的isSubShow属性那么menuList[i]等于false
@@ -221,6 +220,18 @@ const showSubItem = (item, ind) => {
   });
   item.isSubShow = !item.isSubShow;
 }
+const getCategroyData = async () => {
+  const res = await getCategroy()
+  navItemList[0].subItems = res.data.result.map((item) => {
+    return {
+      name: item.name,
+      path: `/categroy?id=${item._id}&name=${item.name}`,
+      id: item._id
+    }
+  })
+}
+getCategroyData()
+
 </script>
 <style lang="less" scoped>
 
@@ -312,6 +323,10 @@ const showSubItem = (item, ind) => {
       display: flex;
       flex-direction: column;
       gap: 15px;
+
+      li:hover {
+        color: #0acf97;
+      }
     }
 
     .menu li {
@@ -335,9 +350,7 @@ const showSubItem = (item, ind) => {
       font-size: 12px;
     }
 
-    .router-link-active {
-      color: #0acf97 !important;
-    }
+
   }
 
   .oneMenu {
@@ -353,6 +366,11 @@ const showSubItem = (item, ind) => {
     justify-content: center;
     gap: 10px;
 
+    .box {
+      height: 35px;
+      padding: 0 25px;
+    }
+
     .myactive {
       .float {
         transform: rotate(00deg);
@@ -367,10 +385,6 @@ const showSubItem = (item, ind) => {
         transform: rotate(90deg);
         transition: all 0.5s;
       }
-    }
-
-    &:hover {
-      color: #0acf97;
     }
 
     .menu-item li a {

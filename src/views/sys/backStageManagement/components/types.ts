@@ -14,3 +14,11 @@ declare module RowData {
     tags: string[]
   }
 }
+
+declare module CRowData {
+  interface Data {
+    _id: string
+    name: string
+    keyword: string
+  }
+}

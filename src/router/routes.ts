@@ -42,11 +42,11 @@ export const frameIn: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: '/test',
-        name: 'test',
-        component: () => import('@/views/test.vue'),
+        path: '/categroy',
+        name: 'categroy',
+        component: () => import('@/components/categroy/index.vue'),
         meta: {
-          title: 'test',
+          title: '分类',
           keepAlive: false,
           transition: 'animate__fadeIn'
         },
@@ -101,7 +101,16 @@ const frameOut = [
           title: '文章管理',
           transition: 'animate__fadeIn'
         },
-      }
+      },
+      {
+        path: '/categroyManagement',
+        name: 'categroyManagement',
+        component: () => import('@/views/sys/backStageManagement/components/categroyManagement/index.vue'),
+        meta: {
+          title: '分类管理',
+          transition: 'animate__fadeIn'
+        },
+      },
     ]
   },
   {

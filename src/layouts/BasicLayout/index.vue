@@ -19,7 +19,7 @@
           </router-view>
           <basic-footer class=" animate__animated  animate__fadeIn"/>
         </div>
-        <n-back-top :right="menuStore.isShowMenu.menwWidth > 750 ? 100:10"/>
+        <n-back-top :right="menuStore.isShowMenu.menwWidth > 750 ? 100:10" style="background: var(--c-f9f9f930)"/>
         <BasicRightNav class="basic-right-nav  animate__animated  animate__fadeIn"></BasicRightNav>
         <div class="setting">
 
@@ -50,6 +50,7 @@
           </div>
         </div>
       </div>
+      <div ref="live2dContentRef"></div>
     </div>
   </div>
 </template>
@@ -62,6 +63,9 @@ import {NBackTop, NTooltip, NSwitch} from 'naive-ui'
 import {SettingsOutline, ArrowBackOutline, ArrowForwardOutline} from '@vicons/ionicons5'
 import {Icon} from '@vicons/utils'
 import {useDark, useToggle} from '@vueuse/core'
+import useMenu from "@/stores/useMenu";
+import {Live2d} from '@tomiaa/live2d'
+import type {Live2dOptions} from "@tomiaa/live2d"
 
 const isDark = useDark()
 const toggleDark = useToggle(isDark)
@@ -69,8 +73,7 @@ const BasicHeader = defineAsyncComponent(() => import('./components/BasicHeader.
 const BasicMenu = defineAsyncComponent(() => import('./components/BasicMenu.vue'));
 const BasicRightNav = defineAsyncComponent(() => import('./components/basicRightNav.vue'));
 const BasicFooter = defineAsyncComponent(() => import('./components/BasicFooter.vue'));
-import useMenu from "@/stores/useMenu";
-
+const live2dContentRef = ref()
 const menuStore = useMenu()
 watchEffect(() => {
   if (menuStore.isShowMenu.menwWidth! >= 750) {
@@ -114,6 +117,16 @@ const onReload = () => {
 }
 
 onMounted(() => {
+  new Live2d({
+    el: live2dContentRef.value,
+    showLoading: false,
+    // jsBaseURL: 'https://gitee.com/zhMoody/live2d/tree/master/public',
+    // live2d_2_ModelBaseURL: 'https://gitee.com/zhMoody/live2d/tree/master/public',
+    // live2d_3_ModelBaseURL: 'https://gitee.com/zhMoody/live2d/tree/master/public',
+    // maxWidth: 200,
+    hitokoto: false,
+    showControl: false
+  } as Live2dOptions)
   document.documentElement.addEventListener('click', () => {
     showSetting.value = false
     onWidth.value = '0'
@@ -140,6 +153,7 @@ onMounted(() => {
   flex-direction: column;
   background: var(--c-bg-body);
 
+
   .setting {
     position: fixed;
     top: 30%;
@@ -163,7 +177,7 @@ onMounted(() => {
       border-radius: 40px 0 0 40px;
       line-height: 46px;
       padding: 0 20px;
-      box-shadow: rgba(191, 170, 183, 0.4) -1px 0px;
+      box-shadow: rgba(191, 170, 183, 0.1) -1px 0px;
     }
 
     .settingTitle {

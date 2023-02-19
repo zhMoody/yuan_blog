@@ -2,13 +2,13 @@
   <header id="header" class="header">
     <div class="default" @click="router.push('/')">
       <Icon color="var(--c-text-666)" size='24'>
-        <HomeOutline tag="span"/>
+        <Home tag="span"/>
       </Icon>
       <span style="padding-left: 10px;color: var(--c-text-666)">  {{ store.userInfo.userName }}</span>
     </div>
     <div class="onMobile" @click="showMenu">
-      <Icon color="var(--c-text-666)" size='22'>
-        <HomeOutline tag="span"/>
+      <Icon color="var(--c-text-666)" size='24'>
+        <Home tag="span"/>
       </Icon>
     </div>
     <div class="blog-center">
@@ -26,13 +26,13 @@
     <div class="blog-right">
       <MusicPlayer class="musicBox"></MusicPlayer>
       <div class="login-container" @click.stop="showBox">
-        <Icon v-if="!store.userInfo.token" color="#777" size="24" @click.self="showBox">
+        <Icon v-if="!store.userInfo.token" color="#777" size="24" @click="showBox">
           <PersonCircleOutline></PersonCircleOutline>
         </Icon>
         <span style="margin-right: 5px;font-size: 16px;color: var(--c-text-666)" @click.stop="showBox">{{
             store.userInfo.nickname
           }}</span>
-        <Icon color="var(--c-text-666)" size="12" @click.stop="showBox">
+        <Icon color="var(--c-text-666)" size="12" @click="showBox">
           <CaretDown tag="span"></CaretDown>
         </Icon>
         <div class="avatar">
@@ -54,41 +54,43 @@
             :model="formValue"
             @click.stop
           >
-            <n-form-item class="ipt" label="用户名">
+            <n-form-item class="ipt" label="用户名" label-style="color:var(--c-text-666)">
               <n-input v-model:value="formValue.nickname" placeholder="用户名"/>
             </n-form-item>
-            <n-form-item label="密码" style="margin-bottom: 10px">
-              <n-input v-model:value="formValue.password" placeholder="密码"/>
+            <n-form-item label="密码" label-style="color:var(--c-text-666)" style="margin-bottom: 10px">
+              <n-input v-model:value="formValue.password" placeholder="密码" type="password"/>
             </n-form-item>
             <n-button block type="info" @click="handleValidateClick">
               登录
             </n-button>
           </n-form>
-          <div v-if="store.userInfo.token" class="isLoginBox" @click.self="logoutBlog">
-            <div class="helloTitle">{{ getDate() }}</div>
-            <div class="LoginOptions" @click.stop="handleRouter('addArticle')">
-              <div class="onNew">
-                <Icon color="var(--c-text-666)" size="14">
-                  <ColorWandOutline></ColorWandOutline>
+          <div @click.stop>
+            <div v-if="store.userInfo.token" class="isLoginBox" @click.self="logoutBlog">
+              <div class="helloTitle">{{ getDate() }}</div>
+              <div class="LoginOptions" @click.stop="handleRouter('addArticle')">
+                <div class="onNew">
+                  <Icon color="var(--c-text-666)" size="14">
+                    <ColorWandOutline></ColorWandOutline>
+                  </Icon>
+                  <span>撰写文章</span></div>
+                <Icon color="var(--c-text-666)" size="12">
+                  <CaretForward tag="span"></CaretForward>
                 </Icon>
-                <span>撰写文章</span></div>
-              <Icon color="var(--c-text-666)" size="12">
-                <CaretForward tag="span"></CaretForward>
-              </Icon>
-            </div>
-            <div class="LoginOptions" @click.stop="handleRouter('backStageManagement')">
-              <div class="onNew">
-                <Icon color="var(--c-text-666)" size="14">
-                  <SettingsOutline tag="span"></SettingsOutline>
+              </div>
+              <div class="LoginOptions" @click.stop="handleRouter('backStageManagement')">
+                <div class="onNew">
+                  <Icon color="var(--c-text-666)" size="14">
+                    <SettingsOutline tag="span"></SettingsOutline>
+                  </Icon>
+                  <span>后台管理</span></div>
+                <Icon color="var(--c-text-666)" size="12">
+                  <CaretForward></CaretForward>
                 </Icon>
-                <span>后台管理</span></div>
-              <Icon color="var(--c-text-666)" size="12">
-                <CaretForward></CaretForward>
-              </Icon>
-            </div>
-            <n-divider/>
-            <div class="logoutBtn" @click.stop="logoutBlog">
-              退出登录
+              </div>
+              <n-divider/>
+              <div class="logoutBtn" @click.stop="logoutBlog">
+                退出登录
+              </div>
             </div>
           </div>
         </div>
@@ -109,7 +111,8 @@ import {
   CaretDown,
   CaretForward,
   SettingsOutline,
-  ColorWandOutline
+  ColorWandOutline,
+  Home
 } from '@vicons/ionicons5'
 import useUserStore from "@/stores/useUser";
 import useMenu from "@/stores/useMenu";
