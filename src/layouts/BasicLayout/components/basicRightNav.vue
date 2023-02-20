@@ -29,7 +29,23 @@
       <NDivider></NDivider>
     </div>
     <div>
-      <div class="title">{{ RightTitle }}</div>
+      <div class="recommend">
+        <h5 class="rightTitle">{{ RightTitle }}</h5>
+        <div v-for="item in recommendList.list" :key="item._id" class="recommendItem animate__animated animate__fadeIn">
+          <div class="img">
+            <img v-lazy="imgUrlList[Math.ceil(Math.random() * 10)]" alt="img">
+          </div>
+          <div class="rightInfoBox">
+            <span>{{ item.title }}</span>
+            <div class="author">
+              <Icon color="var(--c-text-666)" size="12">
+                <PersonOutline></PersonOutline>
+              </Icon>
+              <span>{{ item.author }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="blogInfo">
       <div class="blogInfo-title">
@@ -89,14 +105,16 @@ import {
   BulbOutline,
   CalculatorOutline,
   CodeSlashOutline,
-  EarthOutline
+  EarthOutline,
+  PersonOutline
 } from '@vicons/ionicons5'
 import {Icon} from "@vicons/utils/lib";
 import {NDivider} from 'naive-ui'
-import {onMounted, reactive, ref, watchEffect} from 'vue'
+import {onMounted, reactive, ref, watch, watchEffect, computed} from 'vue'
 import useArticle from "@/stores/useArticle";
 import {useRoute} from "vue-router";
 import usePaging from "@/stores/usePaging";
+import {imgUrlList} from "@/layouts/BasicLayout/components/index";
 
 const pagingStore = usePaging()
 const route = useRoute()
@@ -106,22 +124,26 @@ const nowPage = ref<string>('newArticle-page')
 const getNewPage = (key) => {
   nowPage.value = key
 }
+const recommendList = reactive<{ list: Array<Specify.NewArticleList> }>({list: []})
 watchEffect(() => {
   switch (nowPage.value) {
     case 'newArticle-page':
+      recommendList.list = articleStore.specifyList.list.newArticleList
       return RightTitle.value = '最新文章'
     case 'mostViewed-page':
+      recommendList.list = articleStore.specifyList.list.mostViewedList
       return RightTitle.value = '最多浏览'
     case 'recommend-page':
-      RightTitle.value = '文章推荐'
+      recommendList.list = articleStore.specifyList.list.randomdList
+      return RightTitle.value = '文章推荐'
   }
 })
 
 const sectionChange = (child) => {
   const scrollBox = document.documentElement; // 容器
   let distance = scrollBox.scrollTop;
-  const curTag = document.querySelector("#" + child); // 节点tag
-  const offsetTop = curTag.offsetTop - 20; // 滚动距离
+  const curTag: HTMLDivElement | null = document.querySelector("#" + child); // 节点tag
+  const offsetTop = curTag!.offsetTop - 20; // 滚动距离
   let step = offsetTop / 50;
   if (offsetTop > distance) {
     console.log(111)
@@ -164,8 +186,8 @@ const performance = reactive<P>({
   response: null
 })
 onMounted(() => {
+  articleStore.getSpecifyList()
   let _per = window.performance;
-  console.log(1111, _per)
   // 内存占用
   performance.TakeUp = Math.ceil((_per.memory.totalJSHeapSize / _per.memory.jsHeapSizeLimit) * 100) + 'Mb';
   //dom渲染耗时
@@ -177,6 +199,7 @@ onMounted(() => {
 <style lang="less" scoped>
 .right-nav {
   position: relative;
+  padding-top: 10px;
 
   .blogInfo {
     padding: 20px;
@@ -303,8 +326,59 @@ onMounted(() => {
     }
   }
 
-  .title {
+  .recommend {
     min-height: 220px;
+    padding: 20px 5px;
+
+    .rightTitle {
+      padding: 0 15px;
+      color: var(--c-text-666);
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+
+    .recommendItem {
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 20px;
+      padding: 10px 15px;
+
+      .img {
+        height: 40px;
+        width: 40px;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
+
+        img {
+          width: 100%;
+          height: 100%;
+          transition: all .5s;
+        }
+      }
+
+      .rightInfoBox {
+        display: grid;
+        grid-template-columns: 1fr;
+        color: var(--c-text-666);
+        font-size: 12px;
+        cursor: url('@/assets/link.cur'), pointer;
+
+        .author {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+        }
+      }
+
+      &:hover img {
+        transform: rotate(360deg);
+      }
+
+      &:hover .rightInfoBox {
+        color: #777777;
+      }
+    }
   }
 
   .directory {

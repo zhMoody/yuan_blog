@@ -15,7 +15,7 @@
            data-wow-iteration="1" data-wow-offset="1" @click="gotoDetail(item._id)">
         <div class="card">
           <div class="card-img">
-            <img v-lazy="item.cover"/>
+            <img v-lazy=" bgImg[Math.ceil(Math.random() * 5)] || item.cover"/>
           </div>
           <div class="titleInfo">
             <div class="title">{{ item.title }}</div>
@@ -71,6 +71,7 @@ import WOW from "wow.js";
 import {getArticleList} from "@/api/article";
 import dayjs from 'dayjs'
 import {useRouter} from "vue-router";
+import {bgImg} from './bgImport'
 
 type Data = {
   pagesize: number
@@ -92,7 +93,6 @@ const nextPage = async (info: PaginationInfo) => {
     pagesize: info.pageSize,
     pagenum: info.page,
   }
-  console.log(13, info)
   paging.pagesize = info.pageSize
   paging.pagenum = info.page
 }

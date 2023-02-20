@@ -21,7 +21,6 @@ const loadingStore = useShowLoading()
 const onWidth = ref('50%')
 const zIdx = ref(999)
 watch(() => loadingStore.onLoading, (val) => {
-  console.log('val变化了', val)
   if (val) {
     onWidth.value = '50%'
     zIdx.value = 999

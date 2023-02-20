@@ -140,4 +140,84 @@ declare module CategroyData {
 }
 
 
+declare module Specify {
+
+  export interface CategoryId {
+    _id: string;
+    __v: number;
+    keyword: string;
+    name: string;
+  }
+
+  export interface NewArticleList {
+    browse: number;
+    _id: string;
+    title: string;
+    description: string;
+    category_id: CategoryId;
+    keyword: string;
+    content: string;
+    cover: string;
+    author: string;
+    created: Date;
+    updated: Date;
+  }
+
+  export interface CategoryId2 {
+    _id: string;
+    name: string;
+    keyword: string;
+    __v: number;
+  }
+
+  export interface MostViewedList {
+    browse: number;
+    _id: string;
+    title: string;
+    author: string;
+    description: string;
+    category_id: CategoryId2;
+    content: string;
+    cover: string;
+    keyword: string;
+    created: Date;
+    updated: Date;
+  }
+
+  export interface CategoryId3 {
+    _id: string;
+    name: string;
+    keyword: string;
+    __v: number;
+  }
+
+  export interface RandomdList {
+    browse: number;
+    _id: string;
+    title: string;
+    author: string;
+    description: string;
+    category_id: CategoryId3;
+    content: string;
+    cover: string;
+    keyword: string;
+    created: Date;
+    updated: Date;
+  }
+
+  export interface Data {
+    newArticleList: NewArticleList[];
+    mostViewedList: MostViewedList[];
+    randomdList: RandomdList[];
+  }
+
+  export interface RootObject {
+    msg: string;
+    errorCode: number;
+    code: number;
+    data: Data;
+  }
+
+}
+
 

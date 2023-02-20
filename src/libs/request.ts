@@ -60,10 +60,8 @@ const errorHandler = (error: AxiosError) => {
 };
 
 request.interceptors.request.use((config) => {
-  // let token = storage.get('ACCESS_TOKEN')
   const userStore = useUserStore()
   let token = userStore.userInfo.token
-  console.log('token==>', token)
   // 如果 token 存在
   // 让每个请求携带自定义 token 请根据实际情况自行修改
   config.headers.Authorization = `bearer ${token}`;

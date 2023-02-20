@@ -119,7 +119,7 @@ onMounted(() => {
     showSetting.value = false
     onWidth.value = '0'
   })
-  console.log("\n %c XXXXXXXX | https://XXXXXXX.cn", "color:#fff;background: linear-gradient(to right , #7A88FF, #d26aff);padding:5px;border-radius: 10px;");
+  console.log("\n %c Moody | http://36.133.74.165:9000/", "color:#fff;background: linear-gradient(to right , #7A88FF, #d26aff);padding:5px;border-radius: 10px;");
 })
 </script>
 

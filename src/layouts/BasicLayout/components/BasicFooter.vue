@@ -2,13 +2,13 @@
   <footer>
     <div class="github-badge" style="cursor: pointer; margin-left:20px ;">
       <a href="/" target="_blank">
-        <span class="badge-subject">Powered by</span><span class="badge-value bg-blue">xxxxx</span>
+        <span class="badge-subject">Powered by</span><span class="badge-value bg-blue">Moody</span>
       </a>
     </div>
     &nbsp;|&nbsp;
     <div class="github-badge" style="cursor: pointer;">
       <a href="/" target="_blank">
-        <span class="badge-subject">Theme by</span><span class="badge-value bg-green">xxxxx</span>
+        <span class="badge-subject">Theme by</span><span class="badge-value bg-green">Yuan</span>
       </a>
     </div>
   </footer>
@@ -49,6 +49,7 @@ footer {
 }
 
 a {
+  white-space: nowrap;
   color: var(--c-text-666);
 }
 

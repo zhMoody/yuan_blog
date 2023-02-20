@@ -61,7 +61,7 @@ const columns = createColumns({
   }
 )
 const pagination = ref({
-  pageSize: 10,
+  pageSize: 100,
   pageNum: 1,
   pageCount: 0
 })

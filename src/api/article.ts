@@ -1,13 +1,19 @@
 import request from "@/libs/request";
 
 /**
- * 文章列表
+ * 文章列表 // http://localhost:3000/article
  * data {pagesize:number, pagenum:number}
  */
 export const getArticleList = (data): Promise<Article.RootObject> => request({
   method: 'GET',
   url: `/article?pagesize=${data.pagesize}&pagenum=${data.pagenum}`,
 })
+//获取右边推荐位文章列表
+export const getSpecify = (): Promise<Specify.RootObject> => request({
+  url: `/article/specify`,
+  method: 'POST'
+})
+
 // 获取文章详情
 export const getArticleDetail = (params): Promise<ArcirleDetail.RootObject> => request({
   method: 'GET',
