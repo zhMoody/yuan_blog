@@ -34,7 +34,7 @@
         <div v-for="item in recommendList.list" :key="item._id" class="recommendItem animate__animated animate__fadeIn"
              @click.stop="gotoDetail(item._id)">
           <div class="img">
-            <img v-lazy="imgUrlList[Math.ceil(Math.random() * 10)]" alt="img">
+            <img v-lazy="imgUrlList[Math.ceil(Math.random() * 6)]" alt="img">
           </div>
           <div class="rightInfoBox">
             <span>{{ item.title }}</span>

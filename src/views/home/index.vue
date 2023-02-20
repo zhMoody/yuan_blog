@@ -15,7 +15,8 @@
            data-wow-iteration="1" data-wow-offset="1" @click="gotoDetail(item._id)">
         <div class="card">
           <div class="card-img">
-            <img v-lazy="bgImg[Math.ceil(Math.random() * 5)] || item.cover"/>
+            <img
+              v-lazy="new RegExp(/(http|https):\/\/\S*/).test(item.cover) ? item.cover: bgImg[Math.ceil(Math.random() * 5)]"/>
           </div>
           <div class="titleInfo">
             <div class="title">{{ item.title }}</div>
@@ -68,7 +69,7 @@ import WOW from "wow.js";
 import {getArticleList} from "@/api/article";
 import dayjs from 'dayjs'
 import {useRouter} from "vue-router";
-import {bgImg} from './bgImport'
+import {bgImg} from "@/hooks/bgImport";
 
 type Data = {
   pagesize: number
