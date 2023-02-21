@@ -120,7 +120,7 @@ const formatTime = computed((item) => () => {
 })
 onMounted(() => {
   getList()
-
+  userStore.getUserConfigInfo()
   let wow = new WOW({
     boxClass: "wow",
     animateClass: "animated",

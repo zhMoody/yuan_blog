@@ -111,6 +111,15 @@ const frameOut = [
           transition: 'animate__fadeIn'
         },
       },
+      {
+        path: '/infoConfig',
+        name: 'infoConfig',
+        component: () => import('@/views/sys/backStageManagement/components/infoConfig/index.vue'),
+        meta: {
+          title: '个人配置',
+          transition: 'animate__fadeIn'
+        },
+      },
     ]
   },
   {

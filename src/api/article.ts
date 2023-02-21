@@ -55,7 +55,7 @@ export const addCategroy = (data): Promise<DeleteArticle.RootObject> => request(
   method: 'post',
   data
 })
-// 更新文章
+// 更新分类信息
 export const updateCategroy = (params, data): Promise<DeleteArticle.RootObject> => request({
   url: `/categroy/${params}`,
   method: 'put',

@@ -45,7 +45,7 @@ import {
   PaperPlaneOutline,
   EllipsisHorizontalCircleSharp,
   EllipsisHorizontalCircleOutline,
-  SwapHorizontalSharp
+  SettingsOutline
 } from '@vicons/ionicons5'
 
 function renderIcon(icon: Component) {
@@ -124,6 +124,20 @@ const menuOptions: MenuOption[] = [
       ),
     key: 'categroyManagement',
     icon: renderIcon(PricetagsOutline)
+  },
+  {
+    label: () =>
+      h(
+        RouterLink,
+        {
+          to: {
+            path: '/infoConfig'
+          }
+        },
+        {default: () => '个人配置'}
+      ),
+    key: 'infoConfig',
+    icon: renderIcon(SettingsOutline)
   },
 ]
 onMounted(() => {

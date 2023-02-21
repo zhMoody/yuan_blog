@@ -59,7 +59,7 @@
 <script lang='ts' setup>
 import MdEditor from 'md-editor-v3';
 import {onMounted, ref} from "vue";
-import {NForm, NInput, NFormItem, NButton, NSelect, NGrid, NGi, useMessage} from "naive-ui/lib";
+import {NForm, NInput, NFormItem, NButton, NSelect, NGrid, NGi, useMessage} from "naive-ui";
 import {addArticle, getCategroy, updateArticle} from "@/api/article";
 import useUser from "@/stores/useUser";
 import {useRoute} from "vue-router";

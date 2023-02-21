@@ -1,6 +1,6 @@
 import {defineStore} from 'pinia';
 import {nextTick, ref, watch, h} from "vue"
-import {getUserInfo, onLogin} from "@/api";
+import {getConfigInfo, getUserInfo, onLogin} from "@/api";
 import storage from "store";
 import config from '../../config/index'
 import {useNotification} from 'naive-ui'
@@ -43,6 +43,12 @@ export default defineStore('useUserStore', () => {
     }
   }
 
+  const getUserConfigInfo = async () => {
+    const res = await getConfigInfo()
+    userInfo.value = {...userInfo.value, ...res.data}
+    console.log(res)
+  }
+  
   const logout = () => {
     nextTick(() => {
       userInfo.value = {...config}
@@ -51,7 +57,7 @@ export default defineStore('useUserStore', () => {
     })
   }
 
-  return {userInfo, login, logout}
+  return {userInfo, login, logout, getUserConfigInfo}
 }, {
   persist: true
 })

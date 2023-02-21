@@ -49,7 +49,7 @@
                 <use xlink:href="#icon-youjiantou"></use>
               </svg>
             </div>
-            <ul :style="{height:item.isSubShow? item.subItems.length * 40 +'px' : 0}" class="box" @click.stop>
+            <ul :style="{height:item.isSubShow? (item.subItems.length * 40) - 20 +'px' : 0}" class="box" @click.stop>
               <li v-for="subItem in item.subItems" :key="subItem.name" :style="{color:id===subItem.id ? '#0acf97':''}"
                   class="itemLi"
                   @click.stop="gotoC(subItem)">

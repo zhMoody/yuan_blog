@@ -2,18 +2,24 @@
   <footer>
     <div class="github-badge" style="cursor: pointer; margin-left:20px ;">
       <a href="/" target="_blank">
-        <span class="badge-subject">Powered by</span><span class="badge-value bg-blue">Moody</span>
+        <span class="badge-subject">Powered by</span><span
+        class="badge-value bg-blue">{{ userStore.userInfo.leftFooter }}</span>
       </a>
     </div>
     &nbsp;|&nbsp;
     <div class="github-badge" style="cursor: pointer;">
       <a href="/" target="_blank">
-        <span class="badge-subject">Theme by</span><span class="badge-value bg-green">Yuan</span>
+        <span class="badge-subject">Theme by</span><span
+        class="badge-value bg-green">{{ userStore.userInfo.rightFooter }}</span>
       </a>
     </div>
   </footer>
 </template>
+<script lang="ts" setup>
+import useUser from "@/stores/useUser";
 
+const userStore = useUser()
+</script>
 <script lang="ts">
 export default {
   name: 'BaseFooter',
