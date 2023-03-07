@@ -52,7 +52,7 @@
         <span style="color: var(--c-text-secondary)"> / 正文</span>
       </div>
       <div class="edit">
-        <h5 style="color: var(--c-text-777)">{{ articleData.detail.articleDetail?.description }}</h5>
+        <h5 style="color: var(--c-text-777);font-size: 16px">{{ articleData.detail.articleDetail?.description }}</h5>
         <NDivider dashed></NDivider>
         <md-editor
           v-model="content"
@@ -180,7 +180,6 @@ onMounted(async () => {
     box-sizing: border-box;
     border-radius: 10px;
     color: #fff !important;
-    font-family: 'rz', "yezi", serif;
 
     :deep(.default-theme a) {
       color: var(--c-text-666);

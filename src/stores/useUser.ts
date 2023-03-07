@@ -1,9 +1,9 @@
-import {defineStore} from 'pinia';
-import {nextTick, ref, watch, h} from "vue"
 import {getConfigInfo, getUserInfo, onLogin} from "@/api";
+import {useNotification} from 'naive-ui';
+import {defineStore} from 'pinia';
 import storage from "store";
-import config from '../../config/index'
-import {useNotification} from 'naive-ui'
+import {nextTick, ref} from "vue";
+import config from '../../config/index';
 
 export interface UserInfo {
   id?: string;

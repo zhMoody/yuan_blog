@@ -2,7 +2,7 @@
   <div class='basic-layout' @scroll="scoll">
     <div class="box-show">
       <basic-header class="header  animate__animated  animate__fadeIn"/>
-      <div class="basic">
+      <main class="basic">
         <div v-if="!menuStore.isShowMenu.ShowMenu">
           <BasicMenu class="basic-menu animate__animated  animate__fadeIn"></BasicMenu>
         </div>
@@ -49,7 +49,7 @@
             </n-switch>
           </div>
         </div>
-      </div>
+      </main>
     </div>
   </div>
 </template>
@@ -202,9 +202,12 @@ onMounted(() => {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      height: calc(130px - 40px);
       color: var(--c-text-666);
+      border-radius: 0 0 0 10px;
       padding: 20px 30px 20px 20px;
       font-size: 12px;
+      background: var(--c-f9f9f930);
     }
 
     .animate {

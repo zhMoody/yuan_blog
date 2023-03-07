@@ -9,14 +9,12 @@
       </NEmpty>
     </div>
     <div class="itemContent">
-      <div v-for="item in articleList.list" :key="item._id"
-           :class="`section wow animate__animated animate__fadeInUp`"
-           data-wow-duration="0.6s"
-           data-wow-iteration="1" data-wow-offset="1" @click="gotoDetail(item._id)">
+      <div v-for="item in articleList.list" :key="item._id" :class="`section wow animate__animated animate__fadeInUp`"
+           data-wow-duration="0.6s" data-wow-iteration="1" data-wow-offset="1" @click="gotoDetail(item._id)">
         <div class="card">
           <div class="card-img">
             <img
-              v-lazy="new RegExp(/(http|https):\/\/\S*/).test(item.cover) ? item.cover: bgImg[Math.ceil(Math.random() * 5)]"/>
+              v-lazy="new RegExp(/(http|https):\/\/\S*/).test(item.cover) ? item.cover : bgImg[Math.ceil(Math.random() * 5)]"/>
           </div>
           <div class="titleInfo">
             <div class="title">{{ item.title }}</div>
@@ -51,25 +49,23 @@
       </div>
       <div v-if="showPagination" class="pages">
         <n-pagination v-model:page="paging.pagenum" v-model:page-size="paging.pagesize"
-                      :page-count="Math.ceil(paging.tootal/paging.pagesize)"
-                      :prev="nextPage"/>
+                      :page-count="Math.ceil(paging.tootal / paging.pagesize)" :prev="nextPage"/>
       </div>
     </div>
   </div>
-
 </template>
 <script lang='ts' setup>
-import {NPagination, PaginationInfo, NEmpty, NDivider, NAvatar} from 'naive-ui'
-import {PersonOutline, TimeOutline, EyeOutline} from '@vicons/ionicons5'
-import {Icon} from "@vicons/utils/lib";
-import {onMounted, reactive, ref, computed, watch} from 'vue';
+import {onMounted, reactive, ref, watch} from 'vue';
+import {getArticleList} from "@/api/article";
+import {bgImg} from "@/hooks/bgImport";
 import usePaging from "@/stores/usePaging";
 import useUser from "@/stores/useUser";
-import WOW from "wow.js";
-import {getArticleList} from "@/api/article";
-import dayjs from 'dayjs'
+import {EyeOutline, PersonOutline, TimeOutline} from '@vicons/ionicons5';
+import {Icon} from "@vicons/utils/lib";
+import dayjs from 'dayjs';
+import {NDivider, NEmpty, NPagination, PaginationInfo} from 'naive-ui';
 import {useRouter} from "vue-router";
-import {bgImg} from "@/hooks/bgImport";
+import WOW from "wow.js";
 
 type Data = {
   pagesize: number
@@ -247,7 +243,9 @@ onMounted(() => {
         //gap: 10px;
         padding-bottom: 10px;
 
-        .name, .time, .see {
+        .name,
+        .time,
+        .see {
           padding-left: 20px;
           display: flex;
           justify-content: center;

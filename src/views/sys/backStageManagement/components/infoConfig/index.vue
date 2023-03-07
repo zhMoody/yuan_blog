@@ -13,6 +13,11 @@
           </div>
         </n-gi>
         <n-gi>
+          <n-form-item label="blogLogo(url或者text)" path="blogLogo">
+            <n-input v-model:value="formValue.blogLogo" placeholder="blogLogo"/>
+          </n-form-item>
+        </n-gi>
+        <n-gi>
           <n-form-item label="blog展示名" path="userName">
             <n-input v-model:value="formValue.userName" placeholder="blog展示名"/>
           </n-form-item>
@@ -94,10 +99,16 @@ const formValue = ref({
   homeTitle: '',
   homeIntro: '',
   onFilebg: '',
+  blogLogo: '',
   createAt: Date.now()
 })
 const rules = {
   userName: {
+    required: true,
+    message: '请输入blog展示名',
+    trigger: 'blur'
+  },
+  blogLogo: {
     required: true,
     message: '请输入blog展示名',
     trigger: 'blur'

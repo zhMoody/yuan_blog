@@ -5,8 +5,7 @@
         <Icon v-if="!options.play" color="var(--c-text-666)" size="24" @click.stop="showBox">
           <BowlingBallOutline></BowlingBallOutline>
         </Icon>
-
-        <Icon v-else="options.play" class="onPlay" color="var(--c-text-666)" size="24" @click.stop="showBox">
+        <Icon v-if="options.play" class="onPlay" color="var(--c-text-666)" size="24" @click.stop="showBox">
           <MusicalNotesOutline></MusicalNotesOutline>
         </Icon>
 
@@ -14,40 +13,35 @@
       <div class="music-posa wow animate__animated animate__fadeIn">
         <div class="player">
           <div class="cover">
-            <n-avatar
-              :size="40"
-              :src="options.musicImg"
-              bordered
-              round
-            />
+            <n-avatar :size="40" :src="options.musicImg" bordered round />
           </div>
           <div class="switch">
             <div class="songName">{{ options.musicTitle || '没有可播放的歌曲' }}</div>
             <div class="songOption">
               <div class="songOption-icon">
-           <span @click.stop="musicPlay('pre')">
-              <SvgIcon color="var(--c-text-666)" name="rewind"></SvgIcon>
-           </span>
+                <span @click.stop="musicPlay('pre')">
+                  <SvgIcon color="var(--c-text-666)" name="rewind"></SvgIcon>
+                </span>
                 <span @click.stop="musicPlay('play')">
-              <SvgIcon :name="options.play ? 'pause' : 'play'" color="var(--c-text-666)"></SvgIcon>
-           </span>
+                  <SvgIcon :name="options.play ? 'pause' : 'play'" color="var(--c-text-666)"></SvgIcon>
+                </span>
                 <span @click.stop="musicPlay('next')">
-              <SvgIcon color="var(--c-text-666)" name="fast-forward"></SvgIcon>
-           </span>
+                  <SvgIcon color="var(--c-text-666)" name="fast-forward"></SvgIcon>
+                </span>
                 <span style="color: var(--c-text-666);user-select: none;margin-right: 10px;width: 40px; ">{{
-                    options.currentTime || '00:00'
-                  }}</span>
+                  options.currentTime || '00:00'
+                }}</span>
                 <div class="voiceBox">
                   <Icon>
                     <VolumeMediumOutline></VolumeMediumOutline>
                   </Icon>
-                  <input v-model="options.voiceVal" :max="options.voiceMax"
-                         :min="options.sliderMin" class="range" type="range" @change="voiceSelect">
+                  <input v-model="options.voiceVal" :max="options.voiceMax" :min="options.sliderMin" class="range"
+                                  type="range" @change="voiceSelect">
                 </div>
               </div>
               <div class="Progress">
-                <input v-model="options.sliderVal" :max="options.sliderMax"
-                       :min="options.voiceMin" class="range" type="range" @change="handleChange($event)">
+                <input v-model="options.sliderVal" :max="options.sliderMax" :min="options.voiceMin" class="range"
+                                type="range" @change="handleChange($event)">
                 <!--            <div :style="{width: options.currentProgressTime + '%'}" class="onProgress">-->
                 <!--              <span></span>-->
                 <!--            </div>-->
@@ -58,16 +52,12 @@
         <div class="box">
           <div ref="scrollBox" class="container" @scroll="doscroll">
             <div ref="items" class="itemss">
-              <div v-for="item in virtualList" :key="item" ref="item"
-                   :class="'item'+item.id"
-                   :style="{
-                      color:options.index + 1 === item.id ? 'var(--c-7F780AFF)' : 'var(--c-text-666)',
-                      background:options.index + 1 === item.id ? 'var(--c-musiclist-item-bg)' : 'var(--c-musiclist-bg)',
-                      }"
-                   class="item"
-                   @click.stop="handlerPlay(item.id)">
+              <div v-for="item in virtualList" :key="item.id" ref="item" :class="'item' + item.id" :style="{
+                color: options.index + 1 === item.id ? 'var(--c-7F780AFF)' : 'var(--c-text-666)',
+                background: options.index + 1 === item.id ? 'var(--c-musiclist-item-bg)' : 'var(--c-musiclist-bg)',
+              }" class="item" @click.stop="handlerPlay(item.id)">
                 <span>
-                  {{ item.id }}.  {{ item.name }}
+                  {{ item.id }}. {{ item.name }}
                 </span>
                 <span>
                   {{ item.artist }}
@@ -82,16 +72,16 @@
   <audio ref="singeBox"></audio>
 </template>
 <script lang='ts' setup>
+import { getMusicList } from "@/api/music";
+import useShowLoading from "@/stores/useShowLoading";
 import {
   BowlingBallOutline,
   MusicalNotesOutline,
   VolumeMediumOutline
-} from '@vicons/ionicons5'
-import {Icon} from '@vicons/utils'
-import {NAvatar} from 'naive-ui'
-import {reactive, onMounted, ref, withDefaults, watchEffect, computed, nextTick, watch} from 'vue'
-import {getMusicList} from "@/api/music";
-import useShowLoading from "@/stores/useShowLoading";
+} from '@vicons/ionicons5';
+import { Icon } from '@vicons/utils';
+import { NAvatar } from 'naive-ui';
+import { computed, nextTick, onMounted, reactive, ref, watch, watchEffect } from 'vue';
 
 
 interface Options {
@@ -273,7 +263,7 @@ const updateTime = () => {
 const formatTime = (time) => {
   // 格式化毫秒，返回String型分秒对象
   // 有可能没获取到，为NaN
-  if (!time) return {min: "00", sec: "00"}
+  if (!time) return { min: "00", sec: "00" }
   return {
     min: Math.floor(time / 60)
       .toString()
@@ -331,7 +321,7 @@ onMounted(async () => {
     if (res.data) {
       state.DataList = res.data.map((item, i) => {
         let id = i + 1
-        return {...item, id}
+        return { ...item, id }
       })
       loadingStore.setLoading(false)
       init()
@@ -350,7 +340,6 @@ onMounted(async () => {
 })
 </script>
 <style lang="less" scoped>
-
 .music {
   display: flex
 }
@@ -490,6 +479,7 @@ onMounted(async () => {
     }
 
     .songOption {
+
       span:nth-child(1),
       span:nth-child(2),
       span:nth-child(3) {
@@ -505,7 +495,6 @@ onMounted(async () => {
   align-items: center;
   user-select: none;
   //position: relative;
-  transition: all .5s;
   background-color: var(--c-f9f9f930);
 
   .music-posa {
@@ -561,9 +550,11 @@ onMounted(async () => {
   0% {
     transform: rotate(10deg);
   }
+
   50% {
     transform: rotate(-10deg);
   }
+
   100% {
     transform: rotate(10deg);
   }
@@ -633,6 +624,7 @@ onMounted(async () => {
 //}
 
 @media screen and (max-width: 750px) {
+
   .music-posa {
     display: flex;
     flex-direction: column;

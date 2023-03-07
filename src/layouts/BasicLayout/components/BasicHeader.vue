@@ -4,7 +4,8 @@
       <Icon color="var(--c-text-666)" size='24'>
         <Home tag="span"/>
       </Icon>
-      <span style="padding-left: 10px;color: var(--c-text-666)">  {{ store.userInfo.userName }}</span>
+      <span style="padding-left: 10px;color: var(--c-text-666)"> {{ store.userInfo.userName }}</span>
+      <!--      <img :src="store.userInfo.blogLogo " alt="" class="img">-->
     </div>
     <div class="onMobile" @click="showMenu">
       <Icon color="var(--c-text-666)" size='24'>
@@ -36,24 +37,12 @@
           <CaretDown tag="span"></CaretDown>
         </Icon>
         <div class="avatar">
-          <NAvatar
-            v-if="store.userInfo.token"
-            :size="40"
-            :src="store.userInfo.avatar"
-            bordered
-            fallback-src="https://s1.ax1x.com/2020/07/25/UzAaMq.jpg"
-            round
-            @click="showBox"
-          />
+          <NAvatar v-if="store.userInfo.token" :size="40" :src="store.userInfo.avatar" bordered
+                   fallback-src="https://s1.ax1x.com/2020/07/25/UzAaMq.jpg" round @click="showBox"/>
           <span v-if="store.userInfo.token" class="spa"></span>
         </div>
         <div class="login-posa">
-          <n-form
-            v-if="!store.userInfo.token"
-            ref="formRef"
-            :model="formValue"
-            @click.stop
-          >
+          <n-form v-if="!store.userInfo.token" ref="formRef" :model="formValue" @click.stop>
             <n-form-item class="ipt" label="用户名" label-style="color:var(--c-text-666)">
               <n-input v-model:value="formValue.nickname" placeholder="用户名"/>
             </n-form-item>
@@ -72,7 +61,8 @@
                   <Icon color="var(--c-text-666)" size="14">
                     <ColorWandOutline></ColorWandOutline>
                   </Icon>
-                  <span>撰写文章</span></div>
+                  <span>撰写文章</span>
+                </div>
                 <Icon color="var(--c-text-666)" size="12">
                   <CaretForward tag="span"></CaretForward>
                 </Icon>
@@ -82,7 +72,8 @@
                   <Icon color="var(--c-text-666)" size="14">
                     <SettingsOutline tag="span"></SettingsOutline>
                   </Icon>
-                  <span>后台管理</span></div>
+                  <span>后台管理</span>
+                </div>
                 <Icon color="var(--c-text-666)" size="12">
                   <CaretForward></CaretForward>
                 </Icon>
@@ -97,28 +88,21 @@
       </div>
     </div>
   </header>
-
 </template>
 <script lang='ts' setup>
-import {computed, onMounted, ref, watch, watchEffect} from "vue";
-import {NInput, FormInst, useMessage, NForm, NFormItem, NButton, NAvatar, NDivider, useNotification} from 'naive-ui'
-import MusicPlayer from '@/components/musicPlay/index.vue'
-import {useRouter} from "vue-router";
-import {
-  HomeOutline,
-  Search,
-  PersonCircleOutline,
-  CaretDown,
-  CaretForward,
-  SettingsOutline,
-  ColorWandOutline,
-  Home
-} from '@vicons/ionicons5'
-import useUserStore from "@/stores/useUser";
+import MusicPlayer from '@/components/musicPlay/index.vue';
 import useMenu from "@/stores/useMenu";
-import {Icon} from '@vicons/utils'
+import useUserStore from "@/stores/useUser";
+import {
+  CaretDown,
+  CaretForward, ColorWandOutline,
+  Home, PersonCircleOutline, Search, SettingsOutline
+} from '@vicons/ionicons5';
+import {Icon} from '@vicons/utils';
+import {FormInst, NAvatar, NButton, NDivider, NForm, NFormItem, NInput, useMessage, useNotification} from 'naive-ui';
+import {onMounted, ref} from "vue";
+import {useRouter} from "vue-router";
 import WOW from "wow.js";
-import {auth} from "@/api";
 
 
 const store = useUserStore()
@@ -243,8 +227,6 @@ onMounted(() => {
 </script>
 
 <style lang="less" scoped>
-
-
 :deep(.n-form-item .n-form-item-feedback-wrapper) {
   min-height: 10px !important;
 }
@@ -404,7 +386,7 @@ onMounted(() => {
         background: var(--c-musiclist-bg);
         z-index: 1;
         box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
-        border-radius: 5px;
+        border-radius: 0 0 5px 5px;
         overflow: hidden;
 
         .ipt {
@@ -481,7 +463,7 @@ onMounted(() => {
 }
 
 
-@media screen and  (max-width: 750px) {
+@media screen and (max-width: 750px) {
   .header {
     width: 100%;
     height: 50px;
@@ -493,6 +475,7 @@ onMounted(() => {
     justify-content: space-between;
     align-items: center;
     display: flex;
+
 
     .blog-center {
       display: none;
@@ -507,6 +490,7 @@ onMounted(() => {
 
   .default {
     display: none !important;
+
   }
 
   .onMobile {
