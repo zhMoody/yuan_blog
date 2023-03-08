@@ -13,7 +13,7 @@
           </div>
         </n-gi>
         <n-gi>
-          <n-form-item label="blogTitle(url或者text)" path="blogTitle">
+          <n-form-item label="blogTitle" path="blogTitle">
             <n-input v-model:value="formValue.blogTitle" placeholder="blogTitle"/>
           </n-form-item>
         </n-gi>
