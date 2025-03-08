@@ -23,7 +23,7 @@
         <div>手机端体验</div>
       </div>
       <div>
-        <NButton disabled="true" @click="handleClick">下载</NButton>
+        <NButton :disabled="true" @click="handleClick">下载</NButton>
       </div>
     </div>
     <div>
@@ -44,7 +44,7 @@ import {useRouter} from "vue-router";
 const router = useRouter()
 const message = useMessage()
 const value = ref<string>("http://36.133.74.165:9000/")
-const size = ref<string>('200')
+const size = ref<number>(200)
 const shellContainerRef = ref<HTMLDivElement | null>()
 const imgUel = ref<string>('')
 const handleClick = () => {

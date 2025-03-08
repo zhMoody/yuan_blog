@@ -29,5 +29,9 @@ export const auth = (data) => request<any>({
   method: 'POST',
   data
 })
-
+// 获取后台数据
+export const getMonitorData = () => request({
+  url: "admin/monitor",
+  method: 'GET',
+})
 export const Logout = () => request<any>({method: 'get', url: '/api/logout'});

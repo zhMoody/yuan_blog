@@ -20,11 +20,7 @@ export const frameIn: Array<RouteRecordRaw> = [
       {
         path: "/article/:id",
         name: "article",
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () =>
-          import(/* webpackChunkName: "article" */ "@/components/article/index.vue"),
+        component: () => import( "@/components/article/index.vue"),
         meta: {
           title: '正文',
           keepAlive: false,
@@ -32,9 +28,9 @@ export const frameIn: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: '/placeOnFile',
-        name: 'placeOnFile',
-        component: () => import('@/views/placeOnFile/index.vue'),
+        path: '/cross',
+        name: 'cross',
+        component: () => import('@/views/cross/index.vue'),
         meta: {
           title: '归档',
           keepAlive: true,

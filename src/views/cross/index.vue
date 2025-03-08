@@ -1,13 +1,26 @@
 <template>
-  <div class="placeOnFile">
-    <div :style="`background:url(${userStore.userInfo.onFilebg}) center center; background-size:cover`"
-         class="placeOnFile-top">
-      <div class="wrapper-lg bg-white-opacity">
+  <div class="cross">
+    <div class="cross_title_box">
+      <div :style="`background:url(${userStore.userInfo.onFilebg}) center center; background-size:cover`"
+           class="placeOnFile-top">
+        <div class="wrapper-lg bg-white-opacity">
         <span class="HeaderText"
-              style="text-align:center;height:40px;font-size: 24px;color: var(--c-text-666);margin-bottom: 20px">归档</span>
+              style="text-align:center;height:40px;font-size: 24px;color: var(--c-text-666);margin-bottom: 20px">时光机</span>
+        </div>
+      </div>
+      <div class="cross_title_box_form">
+        <n-input
+          v-model:value="value"
+          :autosize="{ minRows: 3}"
+          placeholder="发点想说的吧！"
+          type="textarea"
+        />
+        <NButton type="success">发布动态</NButton>
       </div>
     </div>
-    <div style="padding: 20px">
+
+
+    <div class="contents">
       <n-timeline>
         <n-timeline-item
           v-for="item in userStore.userInfo.onfile"
@@ -35,11 +48,11 @@
   </div>
 </template>
 <script lang='ts' setup>
-import {NTimeline, NTimelineItem} from 'naive-ui'
+import {NTimeline, NTimelineItem, NButton, NInput} from 'naive-ui'
 import useUser from "@/stores/useUser";
 import dayjs from "dayjs";
 import WOW from "wow.js";
-import {onMounted} from "vue";
+import {onMounted, ref} from "vue";
 import {useRouter} from 'vue-router'
 
 const router = useRouter()
@@ -47,6 +60,7 @@ const gotoDetail = (id) => {
   router.push(`/article/${id}`)
 }
 const userStore = useUser()
+const value = ref('')
 onMounted(() => {
   let wow = new WOW({
     boxClass: "wow",
@@ -64,12 +78,25 @@ onMounted(() => {
 </script>
 
 <style lang="less" scoped>
-.placeOnFile {
+.cross {
   min-height: calc(100vh - 120px);
   overflow: hidden;
   border-radius: 2px;
   box-shadow: 0 1px 3px rgb(0 0 0 / 5%);
   background: var(--c-f1f3f4);
+
+  .cross_title_box {
+    background: var(--c-f9f9f930);
+
+    .cross_title_box_form {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 10px;
+    }
+  }
+
 
   .placeOnFile-top {
     height: 157px;
@@ -102,7 +129,7 @@ onMounted(() => {
     &::before {
       content: '';
       position: absolute;
-      top: 10px;
+      top: 13px;
       left: -5px;
       width: 10px;
       height: 10px;
@@ -110,6 +137,10 @@ onMounted(() => {
       z-index: 1;
       transform: rotate(45deg);
     }
+  }
+
+  .contents {
+    padding: 33px 20px 20px 20px !important;
   }
 
   :deep(.n-timeline .n-timeline-item .n-timeline-item-timeline .n-timeline-item-timeline__line) {
@@ -128,9 +159,9 @@ onMounted(() => {
     transition: all .4s;
     cursor: url('@/assets/link.cur'), pointer;
     box-shadow: 0 1px 3px rgb(0 0 0 / 5%);
+    transform: translateY(-10px);
 
     &:hover {
-      transform: translateY(-10px);
       box-shadow: 0 8px 10px rgba(96, 206, 174, 0.3)
     }
 

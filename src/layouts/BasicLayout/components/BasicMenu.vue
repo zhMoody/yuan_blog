@@ -201,9 +201,9 @@ const navigationList = reactive([
     icon: "#icon-zhuye"
   },
   {
-    name: "归档",
-    path: "/placeOnFile",
-    icon: "#icon-wendang"
+    name: "时光机",
+    path: "/cross",
+    icon: "#icon-taiyang"
   },
   {
     name: "关于",
@@ -281,11 +281,33 @@ getCategroyData()
     margin-bottom: 10px;
 
     :deep(.n-avatar) {
-      transition: all 1s;
+      transition: all .7s;
+      animation: bgAnimation 10s linear infinite;
+
+      &:hover {
+        transform: rotate(360deg) scale(1.2);
+      }
     }
 
-    &:hover :deep(.n-avatar) {
-      transform: rotate(720deg) scale(1.2);
+
+  }
+
+  /* 定义动画 */
+  @keyframes bgAnimation {
+    0% {
+      box-shadow: rgba(255, 165, 0, 0.7) 0 0 36px 0, rgba(255, 165, 0, 0.7) 0 0 0 1px;
+    }
+    25% {
+      box-shadow: rgba(10, 207, 151, 0.7) 0 0 36px 0, rgba(10, 207, 151, 0.7) 0 0 0 1px;
+    }
+    50% {
+      box-shadow: rgba(123, 239, 104, 0.7) 0 0 36px 0, rgba(123, 239, 104, 0.7) 0 0 0 1px;
+    }
+    75% {
+      box-shadow: rgba(179, 230, 117, 0.7) 0 0 36px 0, rgba(230, 224, 117, 0.7) 0 0 0 1px;
+    }
+    100% {
+      box-shadow: rgba(255, 165, 0, 0.7) 0 0 36px 0, rgba(255, 165, 0, 0.7) 0 0 0 1px;
     }
   }
 

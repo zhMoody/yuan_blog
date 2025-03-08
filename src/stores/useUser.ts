@@ -47,20 +47,23 @@ export default defineStore('useUserStore', () => {
 
   const getUserConfigInfo = async () => {
     const res = await getConfigInfo()
-    // @ts-ignore
-    delete res.data.result._id
-    // @ts-ignore
-    delete res.data.result.id
-    userInfo.value = {...userInfo.value, ...res.data.result}
-    userInfo.value.onfile = res.data.onfile
-    console.log(res)
+    try {
+      // @ts-ignore
+      delete res.data.result._id
+      // @ts-ignore
+      delete res.data.result.id
+      userInfo.value = {...userInfo.value, ...res.data.result}
+      userInfo.value.onfile = res.data.onfile
+    } catch (err) {
+
+    }
+
   }
 
   const logout = () => {
     nextTick(() => {
       userInfo.value = {...config}
       storage.remove('useUserStore')
-      storage.remove('ACCESS_TOKEN')
     })
   }
 
