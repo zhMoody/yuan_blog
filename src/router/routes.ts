@@ -13,7 +13,7 @@ export const frameIn: Array<RouteRecordRaw> = [
         component: () => import('@/views/home/index.vue'),
         meta: {
           title: '首页',
-          keepAlive: false,
+          keepAlive: true,
           transition: 'animate__fadeIn'
         },
       },
@@ -23,7 +23,7 @@ export const frameIn: Array<RouteRecordRaw> = [
         component: () => import( "@/components/article/index.vue"),
         meta: {
           title: '正文',
-          keepAlive: false,
+          keepAlive: true,
           transition: 'animate__fadeIn'
         },
       },
@@ -43,7 +43,7 @@ export const frameIn: Array<RouteRecordRaw> = [
         component: () => import('@/views/Acg/index.vue'),
         meta: {
           title: 'test',
-          keepAlive: false,
+          keepAlive: true,
           transition: 'animate__fadeIn'
         },
       },
@@ -53,7 +53,7 @@ export const frameIn: Array<RouteRecordRaw> = [
         component: () => import('@/components/categroy/index.vue'),
         meta: {
           title: '分类',
-          keepAlive: false,
+          keepAlive: true,
           transition: 'animate__fadeIn'
         },
       },

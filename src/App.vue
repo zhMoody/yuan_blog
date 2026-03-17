@@ -39,4 +39,3 @@ const themeOverrides: GlobalThemeOverrides = {
   border-radius: 5px;
 }
 </style>
-

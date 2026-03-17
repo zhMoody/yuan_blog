@@ -144,6 +144,36 @@ body::-webkit-scrollbar-thumb {
   background-color: rgba(240, 248, 255, 0.74);
 }
 
+// 全局路由原地淡入淡出动画
+.page-fade-enter-active {
+  transition: opacity 0.3s ease-out;
+}
+
+.page-fade-leave-active {
+  transition: opacity 0.15s ease-in;
+}
+
+.page-fade-enter-from,
+.page-fade-leave-to {
+  opacity: 0;
+}
+
+// 确保原地重叠，消除位移
+.route-wrapper {
+  position: relative;
+  width: 100%;
+  
+  .page-component {
+    width: 100%;
+    &.page-fade-enter-active,
+    &.page-fade-leave-active {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
+}
+
 .icon {
   width: 1em;
   height: 1em;

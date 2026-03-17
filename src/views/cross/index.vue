@@ -22,27 +22,29 @@
 
     <div class="contents">
       <n-timeline>
-        <n-timeline-item
-          v-for="item in userStore.userInfo.onfile"
-          :key="item._id"
-          class="wow animate__animated animate__fadeInUp"
-          style="--n-icon-size: 40px;--n-title-margin: 0 0 15px 0;"
-          type="success"
-          @click="gotoDetail(item._id)"
-        >
-          <template #header>
-            <span class="timelineHeaderText">{{ item.author }}</span>
-          </template>
-          <template #icon>
-            <div class="img">
-              <img alt="" src="https://q1.qlogo.cn/g?b=qq&nk=2693131889&s=100">
-            </div>
-          </template>
-          <template #footer>
-            <span class="timelineFooterText">{{ dayjs(item.created).format('YYYY-MM-DD hh:mm:ss') }}</span>
-          </template>
-          <span style="font-size: 16px;color: var(--c-text-666)">  {{ item.title }}</span>
-        </n-timeline-item>
+        <transition-group name="list-fade-up">
+          <n-timeline-item
+            v-for="(item, index) in userStore.userInfo.onfile"
+            :key="item._id"
+            :style="{ transitionDelay: `${index * 0.05}s` }"
+            style="--n-icon-size: 40px;--n-title-margin: 0 0 15px 0;"
+            type="success"
+            @click="gotoDetail(item._id)"
+          >
+            <template #header>
+              <span class="timelineHeaderText">{{ item.author }}</span>
+            </template>
+            <template #icon>
+              <div class="img">
+                <img alt="" src="https://q1.qlogo.cn/g?b=qq&nk=2693131889&s=100">
+              </div>
+            </template>
+            <template #footer>
+              <span class="timelineFooterText">{{ dayjs(item.created).format('YYYY-MM-DD hh:mm:ss') }}</span>
+            </template>
+            <span style="font-size: 16px;color: var(--c-text-666)">  {{ item.title }}</span>
+          </n-timeline-item>
+        </transition-group>
       </n-timeline>
     </div>
   </div>
@@ -51,8 +53,7 @@
 import {NTimeline, NTimelineItem, NButton, NInput} from 'naive-ui'
 import useUser from "@/stores/useUser";
 import dayjs from "dayjs";
-import WOW from "wow.js";
-import {onMounted, onUnmounted, ref, nextTick} from "vue";
+import {ref} from "vue";
 import {useRouter} from 'vue-router'
 
 const router = useRouter()
@@ -61,29 +62,21 @@ const gotoDetail = (id) => {
 }
 const userStore = useUser()
 const value = ref('')
-let wow: any = null
 
-onMounted(async () => {
-  await nextTick()
-  wow = new WOW({
-    boxClass: "wow",
-    animateClass: "animated",
-    offset: 0,
-    mobile: true,
-    live: false,
-    resetAnimation: true,
-  })
-  wow.init()
-})
-
-onUnmounted(() => {
-  if (wow && wow.stop) {
-    wow.stop()
-  }
-})
 </script>
 
 <style lang="less" scoped>
+.list-fade-up-enter-active,
+.list-fade-up-leave-active {
+  transition: all 0.5s ease;
+}
+
+.list-fade-up-enter-from,
+.list-fade-up-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
 .cross {
   min-height: calc(100vh - 120px);
   overflow: hidden;

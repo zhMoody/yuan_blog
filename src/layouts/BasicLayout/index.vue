@@ -6,15 +6,12 @@
         <div v-if="!menuStore.isShowMenu.ShowMenu">
           <BasicMenu class="basic-menu"></BasicMenu>
         </div>
-        <div class="content">
+        <div class="content route-wrapper">
           <router-view v-slot="{ Component, route }">
-            <transition name="page-fade" mode="out-in">
+            <transition name="page-fade">
               <keep-alive>
-                <component :is="Component" v-if="route.meta.keepAlive" :key="route.path" />
+                <component :is="Component" :key="route.fullPath" class="page-component" />
               </keep-alive>
-            </transition>
-            <transition name="page-fade" mode="out-in">
-              <component :is="Component" v-if="!route.meta.keepAlive" :key="route.path" />
             </transition>
           </router-view>
           <basic-footer/>
@@ -263,7 +260,7 @@ onMounted(() => {
 
 .page-fade-enter-active,
 .page-fade-leave-active {
-  transition: opacity 0.3s ease;
+  transition: opacity 0.2s ease;
 }
 
 .page-fade-enter-from,
@@ -271,8 +268,8 @@ onMounted(() => {
   opacity: 0;
 }
 
-
 .box-show {
+  background: var(--c-f1f3f4); // 增加背景遮罩层
   box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 1px, rgba(0, 0, 0, 0.07) 0px 2px 2px, rgba(0, 0, 0, 0.07) 0px 4px 4px, rgba(0, 0, 0, 0.07) 0px 8px 8px, rgba(0, 0, 0, 0.07) 0px 16px 16px;
 }
 

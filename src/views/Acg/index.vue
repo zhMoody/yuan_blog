@@ -1,18 +1,19 @@
 <template>
-  <!--  <div class="text">当前模拟数据量:{{ state.DataList.length }}条</div>-->
-  <!--  <div class="box">-->
-  <!--    <div ref="scrollBox" class="container" @scroll="doscroll">-->
-  <!--      <div ref="items">-->
-  <!--        <div class="item" v-for="item in virtualList" :key="item.tid">-->
-  <!--          <img v-lazy="item.src" alt=""/>-->
-  <!--          <span>{{ item.text }}</span>-->
-  <!--        </div>-->
-  <!--      </div>-->
-  <!--    </div>-->
-  <!--    <code class="code">{{ virtualList }}</code>-->
-  <!--  </div>-->
-
   <div class="content">
+    <!-- 将注释移入根节点内部 -->
+    <!--  <div class="text">当前模拟数据量:{{ state.DataList.length }}条</div>-->
+    <!--  <div class="box">-->
+    <!--    <div ref="scrollBox" class="container" @scroll="doscroll">-->
+    <!--      <div ref="items">-->
+    <!--        <div class="item" v-for="item in virtualList" :key="item.tid">-->
+    <!--          <img v-lazy="item.src" alt=""/>-->
+    <!--          <span>{{ item.text }}</span>-->
+    <!--        </div>-->
+    <!--      </div>-->
+    <!--    </div>-->
+    <!--    <code class="code">{{ virtualList }}</code>-->
+    <!--  </div>-->
+    
     <div class="qrcode-wrapper">
       <div class="qrcode">
         <div ref="shellContainerRef" class="qrcodeBox">

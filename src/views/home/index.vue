@@ -9,47 +9,48 @@
       </NEmpty>
     </div>
     <div class="itemContent">
-      <div v-for="item in articleList.list" :key="item._id" 
-           :class="`section wow animate__animated animate__fadeIn`"
-           data-wow-duration="1s" 
-           data-wow-iteration="1" 
-           @click="gotoDetail(item._id)">
-        <div class="card">
-          <div class="card-img">
-            <img
-              v-lazy="new RegExp(/(http|https):\/\/\S*/).test(item.cover) ? item.cover : bgImg[Math.ceil(Math.random() * 5)]"/>
-          </div>
-          <div class="titleInfo">
-            <div class="title">{{ item.title }}</div>
-            <div>
-              <div class="divider">
-                <n-divider/>
-              </div>
-              <div class="info">
-                <!--            HappyOutline-->
-                <div class="name">
-                  <n-icon size="16">
-                    <PersonOutline />
-                  </n-icon>
-                  {{ item.author }}
+      <transition-group name="list-fade-up">
+        <div v-for="(item, index) in articleList.list" :key="item._id" 
+             class="section"
+             :style="{ transitionDelay: `${index * 0.05}s` }"
+             @click="gotoDetail(item._id)">
+          <div class="card">
+            <div class="card-img">
+              <img
+                v-lazy="new RegExp(/(http|https):\/\/\S*/).test(item.cover) ? item.cover : bgImg[Math.ceil(Math.random() * 5)]"/>
+            </div>
+            <div class="titleInfo">
+              <div class="title">{{ item.title }}</div>
+              <div>
+                <div class="divider">
+                  <n-divider/>
                 </div>
-                <div class="time">
-                  <n-icon size="16">
-                    <TimeOutline />
-                  </n-icon>
-                  {{ dayjs(item.created).format('YYYY-MM-DD') }}
-                </div>
-                <div class="see">
-                  <n-icon size="16">
-                    <EyeOutline />
-                  </n-icon>
-                  {{ item.browse }}
+                <div class="info">
+                  <!--            HappyOutline-->
+                  <div class="name">
+                    <n-icon size="16">
+                      <PersonOutline />
+                    </n-icon>
+                    {{ item.author }}
+                  </div>
+                  <div class="time">
+                    <n-icon size="16">
+                      <TimeOutline />
+                    </n-icon>
+                    {{ dayjs(item.created).format('YYYY-MM-DD') }}
+                  </div>
+                  <div class="see">
+                    <n-icon size="16">
+                      <EyeOutline />
+                    </n-icon>
+                    {{ item.browse }}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </transition-group>
       <div v-if="showPagination" class="pages">
         <n-pagination v-model:page="paging.pagenum" v-model:page-size="paging.pagesize"
                       :page-count="Math.ceil(paging.tootal / paging.pagesize)" :prev="nextPage"/>
@@ -58,7 +59,7 @@
   </div>
 </template>
 <script lang='ts' setup>
-import {onMounted, onUnmounted, reactive, ref, watch, nextTick} from 'vue';
+import {onMounted, reactive, ref, watch} from 'vue';
 import {getArticleList} from "@/api/article";
 import {bgImg} from "@/hooks/bgImport";
 import usePaging from "@/stores/usePaging";
@@ -67,7 +68,6 @@ import {EyeOutline, PersonOutline, TimeOutline} from '@vicons/ionicons5';
 import dayjs from 'dayjs';
 import {NDivider, NEmpty, NPagination, NIcon, PaginationInfo} from 'naive-ui';
 import {useRouter} from "vue-router";
-import WOW from "wow.js";
 
 type Data = {
   pagesize: number
@@ -114,31 +114,25 @@ const gotoDetail = (id) => {
   router.push(`/article/${id}`)
 }
 
-let wow: any = null
-
 onMounted(async () => {
   await getList()
   userStore.getUserConfigInfo()
-  await nextTick()
-  wow = new WOW({
-    boxClass: "wow",
-    animateClass: "animated",
-    offset: 0,
-    mobile: true,
-    live: true,
-    resetAnimation: false,
-  })
-  wow.init()
 })
-
-onUnmounted(() => {
-  if (wow && wow.stop) {
-    wow.stop()
-  }
-})
-
 </script>
+
 <style lang="less" scoped>
+// 列表过渡动画
+.list-fade-up-enter-active,
+.list-fade-up-leave-active {
+  transition: all 0.5s ease;
+}
+
+.list-fade-up-enter-from,
+.list-fade-up-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
 :deep(.n-pagination .n-pagination-item.n-pagination-item--button) {
   background: transparent;
   border: #fffccc;

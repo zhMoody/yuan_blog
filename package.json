@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --mode development",
+    "prod": "vite --mode production",
     "build": "vite build --mode production",
     "preview": "vite preview --port 3222",
     "build:prod": "pnpm run build && docker build  --platform linux/amd64 -f ./Docker/Dockerfile  -t code3006/yuan:0.3.17 ."
