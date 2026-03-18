@@ -1,13 +1,44 @@
-// 后端生成的公钥字符串
-const PEM_PUBLIC_KEY = `-----BEGIN PUBLIC KEY-----
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwO8kcHzVf9cfhvkzzVHk
-Es7xgG5qw20EtRPLo06w/UyR6VZnV8319REbVRZjn4jVuqnsAchx3j7hpMoxjuoO
-6jb0y8OI0D0FIZyytqgaDU2YpLr79YVi4q2VtaBISNbQJYCjVzRYUB0djZUIFMej
-/ymN2GH3Nf527C4EXR479Zu2UcyQCQH5l6v/NK0J+J6s48z5wN8cZPqEcrcP/CnB
-nzuHfq7Pg6oabIvfgSIL93WxgkyB4HcxMMr6ULPeMhQDPyUXRS8hJsKIwGWEXIQU
-0BukFglO0VtwUbNQ9IBJ5U/EJVqgk70+5yLW/WlGzav2Q45MtGUomY8KM8XitfoD
-zwIDAQAB
------END PUBLIC KEY-----`;
+import request from '@/libs/request';
+
+/**
+ * RSA 加密工具类
+ * 动态从后端获取公钥，避免硬编码
+ */
+
+let cachedPublicKey: string | null = null;
+let fetchingPromise: Promise<string | null> | null = null;
+
+/**
+ * 从后端获取公钥
+ * 使用项目统一的 request 工具
+ */
+async function fetchPublicKey(): Promise<string | null> {
+  if (cachedPublicKey) return cachedPublicKey;
+  if (fetchingPromise) return fetchingPromise;
+
+  fetchingPromise = request<any>({
+    method: 'GET',
+    url: '/admin/pubkey',
+  })
+    .then((res) => {
+      // 遵循项目 request.ts 的响应拦截逻辑
+      // 如果 code 为 200，res.data 应该包含了公钥字符串
+      if (res && res.data) {
+        cachedPublicKey = res.data;
+        return cachedPublicKey;
+      }
+      throw new Error("Failed to fetch public key: Invalid response format");
+    })
+    .catch((err) => {
+      console.error("Fetch Public Key Error:", err);
+      return null;
+    })
+    .finally(() => {
+      fetchingPromise = null;
+    });
+
+  return fetchingPromise;
+}
 
 /**
  * 将 PEM 格式的公钥转换为 CryptoKey 对象
@@ -15,10 +46,11 @@ zwIDAQAB
 async function importPublicKey(pem: string) {
   const pemHeader = "-----BEGIN PUBLIC KEY-----";
   const pemFooter = "-----END PUBLIC KEY-----";
-  const pemContents = pem.substring(
-    pemHeader.length,
-    pem.length - pemFooter.length
-  ).replace(/\s/g, "");
+  
+  const pemContents = pem
+    .replace(pemHeader, "")
+    .replace(pemFooter, "")
+    .replace(/\s/g, "");
   
   const binaryDerString = window.atob(pemContents);
   const binaryDer = new Uint8Array(binaryDerString.length);
@@ -57,7 +89,12 @@ function arrayBufferToBase64(buffer: ArrayBuffer) {
  */
 export const encrypt = async (data: string): Promise<string | false> => {
   try {
-    const publicKey = await importPublicKey(PEM_PUBLIC_KEY);
+    const publicKeyStr = await fetchPublicKey();
+    if (!publicKeyStr) {
+      return false;
+    }
+
+    const publicKey = await importPublicKey(publicKeyStr);
     const encodedData = new TextEncoder().encode(data);
     const encryptedBuffer = await window.crypto.subtle.encrypt(
       {

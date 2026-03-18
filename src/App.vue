@@ -15,7 +15,6 @@
   </n-config-provider>
 </template>
 <script lang="ts" setup>
-import {defineAsyncComponent} from 'vue'
 import {
   NMessageProvider,
   NLoadingBarProvider,
@@ -25,9 +24,9 @@ import {
   GlobalThemeOverrides
 } from 'naive-ui'
 import {useDark} from '@vueuse/core'
+import OnLoadingView from '@/components/loading/index.vue'
 
 const isDark = useDark()
-const OnLoadingView = defineAsyncComponent(() => import('@/components/loading/index.vue'))
 
 const themeOverrides: GlobalThemeOverrides = {
 }
